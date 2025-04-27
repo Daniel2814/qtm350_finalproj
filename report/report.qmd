@@ -1,0 +1,27 @@
+---
+title: "Economic Development Analysis"
+subtitle: "QTM350 Final Project"
+author: "Davis Boor (2556176), Emma Jinright (2488724), Daniel Nickas (2549711), and Nick Richards (2495699)"
+date: "2025-04-28"
+format: html
+format: pdf
+---
+
+## Introduction
+
+
+
+## Data Description
+
+
+
+## Data Analysis
+
+
+
+## Results and Discussion
+
+
+
+## Conclusion
+

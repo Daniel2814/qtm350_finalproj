@@ -1,0 +1,36 @@
+project:
+  type: website
+
+website:
+  title: "website"
+  page-navigation: true
+  back-to-top-navigation: true
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: about.qmd
+        text: About
+      - href: introduction.qmd
+        text: Introduction
+      - href: data_description.qmd
+        text: Data Description
+      - href: data_analysis.qmd
+        text: Data Analysis
+      - href: results.qmd
+        text: Results and Discussion
+      - href: conclusion.qmd
+        text: Conclusion
+      - href: further_reading.qmd
+        text: Further Reading
+
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+    css: styles.css
+    toc: true
+
+
+
