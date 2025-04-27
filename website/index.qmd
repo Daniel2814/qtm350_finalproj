@@ -2,6 +2,6 @@
 title: "Economic Development Analysis"
 ---
 
-This is a Quarto website.
+## Introduction
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+This Quarto website contains economic development analysis using data from the [World Bank's World Development Indicators](https://databank.worldbank.org/source/world-development-indicators). 

@@ -11,8 +11,6 @@ website:
         text: Home
       - href: about.qmd
         text: About
-      - href: introduction.qmd
-        text: Introduction
       - href: data_description.qmd
         text: Data Description
       - href: data_analysis.qmd
