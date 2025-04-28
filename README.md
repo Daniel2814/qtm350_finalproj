@@ -5,7 +5,9 @@ This project concerns economic development of various regions of the world. Impo
 The indicactor codes are as such:
 
 – GDP per capita (constant 2015 US$) – Indicator: NY.GDP.PCAP.KD. https://data.worldbank.org/indicator/NY.GDP.PCAP.KD.
+
 – Employment to population ratio, 15+, total (%) – Indicator: SL.EMP.TOTL.SP.ZS. https://data.worldbank.org/indicator/SL.EMP.TOTL.SP.ZS. 
+
 – GDP growth (annual %)– Indicator: NY.GDP.MKTP.KD.ZG. https://data.worldbank.org/indicator/NY.GDP.MKTP.KD.ZG.
 
 Though this analysis is done at surface level, one can make inferences about how natural resources within general regions affect the development of a country using the indicators mentioned previously. 
