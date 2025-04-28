@@ -1,0 +1,13 @@
+---
+title: "Economic Development Analysis"
+---
+
+This data is from the [World Bank's World Development Indicators](https://databank.worldbank.org/source/world-development-indicators). We will be utilizing a variety of economic development indicators to conduct this analysis. Our main indicators are `GDP per capita`, `employment to population ratio`, `GDP growth`, and `Davis's Indicator`:
+
+* **`GDP per capita`**
+
+* **`employment to population ratio`**
+
+* **`GDP growth`** is a variable that captures the annual percent growth of GDP for countries from 1960 to 2023. More specifically, in the World Development Indicators, this variable is named `NY.GDP.MKTP.KD.ZG.` and can be found [here](https://data.worldbank.org/indicator/NY.GDP.MKTP.KD.ZG). For analysis, we also utilized country metadata that contained information on `region` and `income level`.
+
+* **`Davis's Indicator`**

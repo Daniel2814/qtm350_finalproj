@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Davis Boor (2556176), Emma Jinright (2488724), Daniel Nickas (2549711), and Nick Richards (2495699)">
+<meta name="dcterms.date" content="2025-04-28">
+
+<title>Economic Development Analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="report_files/libs/clipboard/clipboard.min.js"></script>
+<script src="report_files/libs/quarto-html/quarto.js"></script>
+<script src="report_files/libs/quarto-html/popper.min.js"></script>
+<script src="report_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="report_files/libs/quarto-html/anchor.min.js"></script>
+<link href="report_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="report_files/libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="report_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="report_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="report_files/libs/bootstrap/bootstrap-d47bb45708ccdde6d9157f7b7c46691e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Economic Development Analysis</h1>
+<p class="subtitle lead">QTM350 Final Project</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Davis Boor (2556176), Emma Jinright (2488724), Daniel Nickas (2549711), and Nick Richards (2495699) </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">April 28, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+</section>
+<section id="data-description" class="level2">
+<h2 class="anchored" data-anchor-id="data-description">Data Description</h2>
+<p>This data is from the <a href="https://databank.worldbank.org/source/world-development-indicators">World Bank’s World Development Indicators</a>. We will be utilizing a variety of economic development indicators to conduct this analysis. Our main indicators are <code>GDP per capita</code>, <code>employment to population ratio</code>, <code>GDP growth</code>, and <code>Davis's Indicator</code>:</p>
+<ul>
+<li><p><strong><code>GDP per capita</code></strong></p></li>
+<li><p><strong><code>employment to population ratio</code></strong></p></li>
+<li><p><strong><code>GDP growth</code></strong> is a variable that captures the annual percent growth of GDP for countries from 1960 to 2023. More specifically, in the World Development Indicators, this variable is named <code>NY.GDP.MKTP.KD.ZG.</code> and can be found <a href="https://data.worldbank.org/indicator/NY.GDP.MKTP.KD.ZG">here</a>. For analysis, we also utilized country metadata that contained information on <code>region</code> and <code>income level</code>.</p></li>
+<li><p><strong><code>Davis's Indicator</code></strong></p></li>
+</ul>
+</section>
+<section id="data-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="data-analysis">Data Analysis</h2>
+<section id="gdp-per-capita" class="level3">
+<h3 class="anchored" data-anchor-id="gdp-per-capita">GDP per Capita</h3>
+</section>
+<section id="employment-to-population-ratio" class="level3">
+<h3 class="anchored" data-anchor-id="employment-to-population-ratio">Employment to Population Ratio</h3>
+</section>
+<section id="gdp-growth" class="level3">
+<h3 class="anchored" data-anchor-id="gdp-growth">GDP Growth</h3>
+<p>The next indicator that we are interested in analyzing is GDP growth. In order to analyze this variable, we first did data cleaning using SQLite. We removed unneeded variables, cleaned variable names, and joined our GDP growth indicator with the country metadata. Then, we removed entries where there was no region. This is because the <code>country_name</code> column also contained regions, income levels, and world averages and to avoid redundancy with our joined data, we removed it. Lastly, we pivotted the table into a long format where instead of each year having it’s own column, there is a year column and then a GDP growth column to capture the percentage of GDP growth for every year. After cleaning was completed, some simple descriptive statistics tables were created using SQLite which can be seen below. After that, python was used to create visualizations to support further analysis. The main questions we were trying to answer through the analysis of GDP growth was how GDP growth had changed over time between different regions and income levels compared to the world average. The code used to complete this analysis is located in the scripts file of this gtihub repository <a href="https://github.com/Daniel2814/qtm350_finalproj/tree/d5262c78c7946d1de2ea87f036598ffe62cc3b17/scripts">here</a>.</p>
+</section>
+<section id="daviss-indicator" class="level3">
+<h3 class="anchored" data-anchor-id="daviss-indicator">Davis’s Indicator</h3>
+</section>
+</section>
+<section id="results-and-discussion" class="level2">
+<h2 class="anchored" data-anchor-id="results-and-discussion">Results and Discussion</h2>
+<section id="gdp-per-capita-1" class="level3">
+<h3 class="anchored" data-anchor-id="gdp-per-capita-1">GDP per Capita</h3>
+</section>
+<section id="employment-to-population-ratio-1" class="level3">
+<h3 class="anchored" data-anchor-id="employment-to-population-ratio-1">Employment to Population Ratio</h3>
+</section>
+<section id="gdp-growth-1" class="level3">
+<h3 class="anchored" data-anchor-id="gdp-growth-1">GDP Growth</h3>
+<p>Here are the results from the GDP Growth analysis.</p>
+<p>The table below summarizes GDP growth statistics across decades.</p>
+<div id="cell-table-decade" class="cell" data-message="false" data-execution_count="2">
+<div id="table-decade" class="cell-output cell-output-display" data-execution_count="2">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">decade</th>
+<th data-quarto-table-cell-role="th">count_growth</th>
+<th data-quarto-table-cell-role="th">min_growth</th>
+<th data-quarto-table-cell-role="th">avg_growth_decade</th>
+<th data-quarto-table-cell-role="th">max_growth</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1960s</td>
+<td>1026</td>
+<td>-27.270000</td>
+<td>5.461588</td>
+<td>81.887797</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>1970s</td>
+<td>1423</td>
+<td>-46.433035</td>
+<td>4.997033</td>
+<td>76.620155</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>1980s</td>
+<td>1663</td>
+<td>-42.451118</td>
+<td>2.991529</td>
+<td>34.600001</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>1990s</td>
+<td>1942</td>
+<td>-64.047107</td>
+<td>2.897831</td>
+<td>149.972963</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>2000s</td>
+<td>2033</td>
+<td>-36.656780</td>
+<td>4.039469</td>
+<td>63.379875</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>2010s</td>
+<td>2093</td>
+<td>-50.338515</td>
+<td>3.183693</td>
+<td>86.826748</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>2020s</td>
+<td>819</td>
+<td>-54.336155</td>
+<td>2.009832</td>
+<td>75.061377</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>The 1960s exhibited the highest average GDP growth (~5.46%), while 2020 to present had the lowest average (~2.00%) across the world. The 1990s showed notable volatility with the widest range in growth rates (-64% to +150%). This pattern highlights a long-term slowdown of global economic expansion over the past six decades.</p>
+<p>The table below summarizes GDP growth by world region.</p>
+<div id="cell-table-region" class="cell" data-message="false" data-execution_count="3">
+<div id="table-region" class="cell-output cell-output-display" data-execution_count="3">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">region</th>
+<th data-quarto-table-cell-role="th">n_countries</th>
+<th data-quarto-table-cell-role="th">n_obs</th>
+<th data-quarto-table-cell-role="th">avg_growth</th>
+<th data-quarto-table-cell-role="th">min_growth</th>
+<th data-quarto-table-cell-role="th">max_growth</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>East Asia &amp; Pacific</td>
+<td>36</td>
+<td>1828</td>
+<td>3.788046</td>
+<td>-54.336155</td>
+<td>75.061377</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Europe &amp; Central Asia</td>
+<td>57</td>
+<td>2558</td>
+<td>2.876755</td>
+<td>-44.899775</td>
+<td>54.199300</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Latin America &amp; Caribbean</td>
+<td>41</td>
+<td>2157</td>
+<td>3.219749</td>
+<td>-26.782933</td>
+<td>63.334587</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Middle East &amp; North Africa</td>
+<td>21</td>
+<td>1098</td>
+<td>4.927993</td>
+<td>-64.047107</td>
+<td>86.826748</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>North America</td>
+<td>3</td>
+<td>189</td>
+<td>2.818637</td>
+<td>-6.842870</td>
+<td>14.363636</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>South Asia</td>
+<td>8</td>
+<td>442</td>
+<td>5.054728</td>
+<td>-32.908829</td>
+<td>37.507870</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>Sub-Saharan Africa</td>
+<td>48</td>
+<td>2727</td>
+<td>3.825631</td>
+<td>-51.030865</td>
+<td>149.972963</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>World</td>
+<td>1</td>
+<td>63</td>
+<td>3.783984</td>
+<td>-5.108132</td>
+<td>6.392297</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>When broken down by region, the Middle East and North Africa had the highest average GDP growth (~4.93%) compared to other world regions from 1960 to 2023. This is likely due to oil wealth and energy exports in this region. North America had the slowest average growth (~2.82%) during this time period. This is consistent with trends observed in developed economies with mature markets and slower population growth. The variabiltiy seen across regions suggest that resource wealth, political stability, and demographic factors strongly influence long-term GDP trajectories.</p>
+<p>The table below summarizes GDP growth by income group.</p>
+<div id="cell-table-income" class="cell" data-message="false" data-execution_count="4">
+<div id="table-income" class="cell-output cell-output-display" data-execution_count="4">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">income_group</th>
+<th data-quarto-table-cell-role="th">n_countries</th>
+<th data-quarto-table-cell-role="th">n_obs</th>
+<th data-quarto-table-cell-role="th">min_growth</th>
+<th data-quarto-table-cell-role="th">avg_growth</th>
+<th data-quarto-table-cell-role="th">max_growth</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Upper middle income</td>
+<td>54</td>
+<td>2813</td>
+<td>-64.047107</td>
+<td>4.040969</td>
+<td>149.972963</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Lower middle income</td>
+<td>51</td>
+<td>2731</td>
+<td>-46.433035</td>
+<td>3.876785</td>
+<td>58.078096</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>World</td>
+<td>1</td>
+<td>63</td>
+<td>-5.108132</td>
+<td>3.783984</td>
+<td>6.392297</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Low income</td>
+<td>25</td>
+<td>1333</td>
+<td>-51.030865</td>
+<td>3.368783</td>
+<td>106.279814</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>High income</td>
+<td>83</td>
+<td>4068</td>
+<td>-54.336155</td>
+<td>3.255113</td>
+<td>82.809329</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Among income groups, Upper Middle Income countries experienced the highest average growth (~4.04%) from 1960 to 2023, while High Income countries had lower average growth (~3.26%) during this time period. The Upper Middle Income country growth reflects the rapid industrialization and modernization of economies such as China, Malaysia, and Turkey from 1960 to 2023. The more stable, lower growth experienced by High Income countries reinforces the idea that as economies mature, growth rates naturally slow. This comparison shows the importance of the development stage in driving economic performance across countries.</p>
+<p>This first figure displays average GDP growth over time by region.</p>
+<div id="cell-fig-region" class="cell" data-fig.cap="This is a line plot showing GDP growth over time for different regions of the world" data-message="false" data-execution_count="6">
+<div class="cell-output cell-output-display">
+<div id="fig-region" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-region-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="report_files/figure-html/fig-region-output-1.png" id="fig-region" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-region-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>While short-term fluctuations are common across the globe, a general decline in growth rates is observed post-1970s across most regions. It is clear on the figure that all world regions experienced high short-term volatility, especially Sub-Saharan Africa and South Asia, with many regions experiencing sharp dips around known global recessions (i.e.&nbsp;the early 1980s and late 2000s). The world average (thicker black line) remains relatively stable compared to the volatility shown in other regions, with spikes and dips corresponding to major global events. The world average also demonstrates how the global economy exhibits greater resilience and inertia compared to individual regions.</p>
+<p>The second figure presents a smoothed trend line of GDP growth over time by world region.</p>
+<div id="cell-fig-regionsmooth" class="cell" data-fig.cap="This is a line plot showing smoothed GDP growth over time for different regions of the world" data-message="false" data-execution_count="7">
+<div class="cell-output cell-output-display">
+<div id="fig-regionsmooth" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-regionsmooth-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="report_files/figure-html/fig-regionsmooth-output-1.png" id="fig-regionsmooth" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-regionsmooth-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>This reveals a clearer long-term downward trend of GDP growth across all regions in the world. Notably, Sub-Saharan Africa, the Middle East and North Africa, and South Asia initially experienced relatively high growth, but later their growth rates converged downward with other regions. North America and Europe and Central Asia have shown the lowest growth decline trajectory so far. This is likely explained by structural factors, such as aging populations, slower technological diffusion, and diminishing returns to capital.</p>
+<p>The below figure displays the average GDP growth over time by country income level.</p>
+<div id="cell-fig-income" class="cell" data-fig.cap="This is a line plot showing GDP growth over time for countries of different income levels" data-message="false" data-execution_count="8">
+<div class="cell-output cell-output-display">
+<div id="fig-income" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-income-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="report_files/figure-html/fig-income-output-1.png" id="fig-income" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-income-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>This income group graphs show that GDP growth trends differ substantially across income levels. High-income countries experienced relatively stable and moderate growth throughout the observed period, with smaller fluctuations even during major global events such as the 2008 financial crisis and the 2020 pandemic. In contrast, lower-middle-income and low-income countries exhibited much greater volatility, with sharp downturns during periods of global recession. Upper-middle-income countries generally achieved higher average growth rates, particularly during the 1990s and early 2000s, but their growth also became less consistent after 2008. These patterns suggest that lower-income countries are more vulnerable to external shocks, while high-income countries are more insulated due to stronger economic institutions and diversification.</p>
+<p>This last figure presents a smoothed trend line of GDP growth over time by country income level.</p>
+<div id="cell-fig-incomesmooth" class="cell" data-fig.cap="This is a line plot showing smoothed GDP growth over time for countries of different income levels" data-message="false" data-execution_count="9">
+<div class="cell-output cell-output-display">
+<div id="fig-incomesmooth" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-incomesmooth-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="report_files/figure-html/fig-incomesmooth-output-1.png" id="fig-incomesmooth" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-incomesmooth-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The smoothed income group trends highlight longer-term structural shifts in global GDP growth patterns. Across all income groups, there is a visible gradual decline in average growth rates from the 1960s to the 2020s. Although upper-middle-income countries reached a peak of growth around the early 2000s, this momentum slowed considerably in the following decades. Low-income countries experienced the steepest long-term decline, pointing to persistent challenges such as political instability, lack of infrastructure, and dependency on a narrow range of industries. High-income countries maintained steadier growth but at increasingly lower rates over time, suggesting that mature economies are facing limits to expansion. Together, these smoothed trends imply that broader global factors, such as technological stagnation, demographic shifts, and environmental pressures, are influencing growth trajectories across all income levels, albeit unevenly.</p>
+</section>
+<section id="daviss-indicator-1" class="level3">
+<h3 class="anchored" data-anchor-id="daviss-indicator-1">Davis’s Indicator</h3>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
