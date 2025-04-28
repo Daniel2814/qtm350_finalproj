@@ -1,5 +1,7 @@
 # qtm350_finalproj
 
+This site was created for QTM 350's final project for Spring 2025. It was created by Davis Boor (2556176), Emma Jinright (2488724), Daniel Nickas (2549711), and Nick Richards (2495699).
+
 This project concerns economic development of various regions of the world. Importing the WGAPI package in Python, this project uses World Bank datasets on GDP growth, GDP per capita, and employment to population ratios to chart plots and make inferences on how various regions have developed with respect to each other. Within the write up, we use research on natural resource exports, production, and origins to connect to the data extraction and interpretation from the WGAPI python package. 
 
 The indicactor codes are as such:
