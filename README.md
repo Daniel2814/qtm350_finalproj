@@ -1,4 +1,4 @@
-# qtm350_finalproj
+# QTM350 FINAL PROJECT Economic Development and Natural Resources
 
 This site was created for QTM 350's final project for Spring 2025. It was created by Davis Boor (2556176), Emma Jinright (2488724), Daniel Nickas (2549711), and Nick Richards (2495699).
 
