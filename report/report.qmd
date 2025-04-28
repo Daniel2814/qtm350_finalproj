@@ -51,13 +51,26 @@ The next indicator that we are interested in analyzing is GDP growth. In order t
 #| label: setup
 #| include: false
 # Import necessary libraries
-
+import pandas as pd
+import sqlite3 
+import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('Agg')
+import seaborn as sns
+from matplotlib.ticker import MultipleLocator
+import os
+from IPython.display import Image, display
 
 # Connect to the SQLite database
+
 conn = sqlite3.connect("employment.db")
 cursor = conn.cursor()
 cursor.execute("PRAGMA foreign_keys = ON;")
 print("Database connection established and foreign keys enabled.")
+
+# Load employment data (this was missing earlier!)
+employment = pd.read_csv("../data/API_SL.EMP.TOTL.SP.ZS_DS2_en_csv_v2_23936.csv", skiprows=4)
+employment.to_sql("employment", conn, if_exists="replace", index=False)
 
 # Load countries metadata
 countries = pd.read_csv("../data/Metadata_Country_API_NY.GDP.MKTP.KD.ZG_DS2_en_csv_v2_19358.csv")
@@ -202,6 +215,7 @@ conn.close()
 #| label: setup
 #| include: false
 # Import necessary libraries
+#| fig.cap: "This is a line plot showing different employment ratios across different regions"
 import pandas as pd
 import sqlite3 
 import matplotlib.pyplot as plt
@@ -210,6 +224,7 @@ matplotlib.use('Agg')
 import seaborn as sns
 from matplotlib.ticker import MultipleLocator
 import os
+from IPython.display import Image, display
 
 employment_long['year'] = employment_long['year'].astype(int)
 
@@ -255,10 +270,10 @@ plt.legend(title='Region', bbox_to_anchor=(1.05, 1), loc='upper left')
 
 # Layout and save
 plt.tight_layout()
-plt.savefig("figures/employment_to_pop_ratio_by_region.png")
+plt.savefig("../figures/employment_to_pop_ratio_by_region.png")
+display(Image(filename="../figures/employment_to_pop_ratio_by_region.png"))
 
 ```
-
 
 ### GDP Growth
 
