@@ -1,1 +1,3 @@
 # qtm350_finalproj
+
+This project concerns economic development of various regions of the world. Using several World Bank datasets on GDP growth, GDP per capita, and employment to population ratios, we chart plots and make inferences on how various regions have developed with respect to eachother. Though this analysis is done at a simplfied level, one can make inferences about how natural resources within general regions affect the development of a country using the indicators mentioned previously. Code in this project was run on several different devices and before running, one needs to make sure their working directories are being used instead of ones written in the code itself. After that, the project should render as a quarto website with graphs and a write up.
