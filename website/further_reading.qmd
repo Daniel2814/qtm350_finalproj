@@ -7,7 +7,8 @@ Here are some websites to consider for further reading on these topics:
 * [World Bank's World Development Indicators](https://databank.worldbank.org/source/world-development-indicators)
 * [World Bank's API Documentation](https://documents.worldbank.org/en/publication/documents-reports/api)
 
-Used to reference information regarding natural resources within the regions discussed and how they impact economic development
+The sources below were used to provide information regarding natural resources within the regions discussed and how they impact economic development.
+
 * [World Bank (2021) — Inclusive Growth in MENA](https://www.worldbank.org/en/news/feature/2021/06/07/inclusive-growth-in-middle-east-and-north-africa)
 * [ILO (2020) — World Employment and Social Outlook](https://www.ilo.org/global/research/global-reports/weso/2020/lang--en/index.htm)
 * [Sachs and Warner (1995) — Natural Resource Abundance and Economic Growth](https://www.nber.org/papers/w5398)
