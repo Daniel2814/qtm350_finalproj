@@ -21,6 +21,7 @@ This data is from the [World Bank's World Development Indicators](https://databa
 In the context of economic development, the employment-to-population ratio serves as an important indicator of how well an economy is utilizing its human resources. A rising ratio typically suggests positive development trends, such as increasing job creation, greater access to employment opportunities, and improved living standards. Economies with consistently high employment-to-population ratios often experience broader economic growth, higher productivity, and reduced poverty rates. Conversely, a low ratio can signal structural problems like weak labor market demand, gender disparities in employment, or a mismatch between skills and job opportunities. Natural resource dependence can also influence this ratio: in countries heavily reliant on oil or mining, wealth may be generated without widespread employment, leading to lower overall participation rates despite high national incomes. Thus, analyzing changes in the employment-to-population ratio over time offers key insights into the inclusiveness and sustainability of economic growth. 
 
 * **`GDP growth`** is a variable that captures the annual percent growth of GDP for countries from 1960 to 2023. More specifically, in the World Development Indicators, this variable is named `NY.GDP.MKTP.KD.ZG.` and can be found [here](https://data.worldbank.org/indicator/NY.GDP.MKTP.KD.ZG). For analysis, we also utilized country metadata that contained information on `region` and `income level`.
+* **`Davis's Indicator`**
 
 ## Data Analysis
 
@@ -30,12 +31,13 @@ In the context of economic development, the employment-to-population ratio serve
 
 The Employment-to-Population Ratio trends from 1990-2024 (Many too many data points were excluded before 1990, so it did not necessarily make sense to show N/A values) show clear differences across global regions, revealing important insights about labor market dynamics and economic structures. North America and East Asia & Pacific consistently maintain the highest employment-to-population ratios, while the Middle East & North Africa region shows persistently lower levels. A sharp global decline around 2020 reflects the impact of the COVID-19 pandemic, after which most regions partially recovered, although some — particularly Latin America and Europe — continued to lag. Notably, Sub-Saharan Africa exhibits a relatively resilient employment pattern despite ongoing global shocks, likely due to its labor-intensive informal economy. Overall, the World Average line demonstrates a slow, steady decline over time, highlighting a global trend toward slightly lower labor market participation.
 
-Natural resources play a critical role in explaining these regional differences. Resource-rich economies, particularly those dependent on oil exports such as those in the Middle East and North Africa, often exhibit lower employment-to-population ratios. This reflects the "resource curse," where resource wealth does not translate into widespread job creation due to capital-intensive industries dominating national output. In contrast, regions like Sub-Saharan Africa, heavily reliant on agriculture and mining, maintain higher employment ratios despite lower GDP per capita, driven by the need for broad participation in informal sectors. The relative resilience of East Asia and North America further suggests that diversified economies with strong service and industrial sectors are better positioned to maintain stable employment levels, even during global disruptions. These findings are consistent with research from the World Bank (2021), the International Labour Organization (2020), and Sachs and Warner (1995), which collectively emphasize the importance of economic diversification in sustaining employment growth. Hello
+Natural resources play a critical role in explaining these regional differences. Resource-rich economies, particularly those dependent on oil exports such as those in the Middle East and North Africa, often exhibit lower employment-to-population ratios. This reflects the "resource curse," where resource wealth does not translate into widespread job creation due to capital-intensive industries dominating national output. In contrast, regions like Sub-Saharan Africa, heavily reliant on agriculture and mining, maintain higher employment ratios despite lower GDP per capita, driven by the need for broad participation in informal sectors. The relative resilience of East Asia and North America further suggests that diversified economies with strong service and industrial sectors are better positioned to maintain stable employment levels, even during global disruptions. These findings are consistent with research from the World Bank (2021), the International Labour Organization (2020), and Sachs and Warner (1995), which collectively emphasize the importance of economic diversification in sustaining employment growth.
 
 ### GDP Growth
 
 The next indicator that we are interested in analyzing is GDP growth. In order to analyze this variable, we first did data cleaning using SQLite. We removed unneeded variables, cleaned variable names, and joined our GDP growth indicator with the country metadata. Then, we removed entries where there was no region. This is because the `country_name` column also contained regions, income levels, and world averages and to avoid redundancy with our joined data, we removed it. Lastly, we pivotted the table into a long format where instead of each year having it's own column, there is a year column and then a GDP growth column to capture the percentage of GDP growth for every year. After cleaning was completed, some simple descriptive statistics tables were created using SQLite which can be seen below. After that, python was used to create visualizations to support further analysis. The main questions we were trying to answer through the analysis of GDP growth was how GDP growth had changed over time between different regions and income levels compared to the world average. The code used to complete this analysis is located in the scripts file of this gtihub repository [here](https://github.com/Daniel2814/qtm350_finalproj/tree/d5262c78c7946d1de2ea87f036598ffe62cc3b17/scripts).
 
+### Davis's Indicator
 
 ## Results and Discussion
 
@@ -43,6 +45,219 @@ The next indicator that we are interested in analyzing is GDP growth. In order t
 
 
 ### Employment to Population Ratio
+
+
+```{python}
+#| label: setup
+#| include: false
+# Import necessary libraries
+
+
+# Connect to the SQLite database
+conn = sqlite3.connect("employment.db")
+cursor = conn.cursor()
+cursor.execute("PRAGMA foreign_keys = ON;")
+print("Database connection established and foreign keys enabled.")
+
+# Load countries metadata
+countries = pd.read_csv("../data/Metadata_Country_API_NY.GDP.MKTP.KD.ZG_DS2_en_csv_v2_19358.csv")
+countries.to_sql("countries", conn, if_exists="replace", index=False)
+
+# Clean employment data by joining with country metadata
+years = [str(year) for year in range(1960, 2025)]
+year_columns = ", ".join([f"`{year}`" for year in years])
+
+query1 = f"""
+DROP TABLE IF EXISTS employment_clean;
+CREATE TABLE employment_clean AS
+SELECT 
+    employment.`Country Name` AS country_name,
+    employment.`Country Code` AS country_code,
+    {year_columns},
+    countries.Region AS region,
+    countries.IncomeGroup AS income_group
+FROM employment
+LEFT JOIN countries
+ON employment.`Country Code` = countries.`Country Code`
+WHERE countries.Region IS NOT NULL;
+"""
+conn.executescript(query1)
+conn.commit()
+
+union_queries = []
+
+for year in years:
+    union_queries.append(f"""
+    SELECT 
+        country_name,
+        country_code,
+        region,
+        income_group,
+        '{year}' AS year,
+        `{year}` AS employment_to_pop
+    FROM employment_clean
+    WHERE `{year}` IS NOT NULL
+    """)
+
+query2 = " UNION ALL ".join(union_queries)
+
+
+create_table_query = f"""
+DROP TABLE IF EXISTS employment_long;
+CREATE TABLE employment_long AS
+{query2}
+"""
+conn.executescript(create_table_query)
+conn.commit()
+
+print("Table employment_long created successfully.")
+
+# Calculate World Average Employment-to-Population Ratio
+query3 = '''
+-- Calculate the world average employment ratio for each year
+WITH world_avg AS (
+    SELECT 
+        year,
+        AVG(employment_to_pop) AS world_avg_employment
+    FROM employment_long
+    WHERE region IS NOT NULL
+    GROUP BY year
+)
+-- Insert world average into employment_long
+INSERT INTO employment_long (country_name, country_code, region, income_group, year, employment_to_pop)
+SELECT 
+    'World' AS country_name,
+    NULL AS country_code,
+    'World' AS region,
+    'World' AS income_group,
+    world_avg.year,
+    world_avg.world_avg_employment
+FROM world_avg;
+'''
+conn.executescript(query3)
+conn.commit()
+
+# summary table by decade
+query4 = '''
+SELECT
+    ((CAST(year AS INTEGER) / 10) * 10) || 's' AS decade,
+    COUNT(employment_to_pop) AS count_obs,
+    MIN(employment_to_pop) AS min_ratio,
+    AVG(employment_to_pop) AS avg_ratio_decade,
+    MAX(employment_to_pop) AS max_ratio
+FROM
+    employment_long
+WHERE
+    region != 'World'
+GROUP BY
+    decade
+ORDER BY
+    decade;
+'''
+decade_summary = pd.read_sql_query(query4, conn)
+
+query5 = '''
+SELECT
+    region,
+    COUNT(DISTINCT country_name) AS n_countries,
+    COUNT(employment_to_pop) AS n_obs,
+    AVG(employment_to_pop) AS avg_ratio,
+    MIN(employment_to_pop) AS min_ratio,
+    MAX(employment_to_pop) AS max_ratio
+FROM
+    employment_long
+GROUP BY
+    region
+ORDER BY
+    region;
+'''
+region_summary = pd.read_sql_query(query5, conn)
+
+query6 = '''
+SELECT
+    income_group,
+    COUNT(DISTINCT country_name) AS n_countries,
+    COUNT(employment_to_pop) AS n_obs,
+    MIN(employment_to_pop) AS min_ratio,
+    AVG(employment_to_pop) AS avg_ratio,
+    MAX(employment_to_pop) AS max_ratio
+FROM
+    employment_long
+WHERE
+    income_group IS NOT NULL
+GROUP BY
+    income_group
+ORDER BY
+    avg_ratio DESC;
+'''
+income_summary = pd.read_sql_query(query6, conn)
+
+employment_long = pd.read_sql_query("SELECT * FROM employment_long", conn)
+
+conn.close()
+
+```
+
+```{python}
+#| label: setup
+#| include: false
+# Import necessary libraries
+import pandas as pd
+import sqlite3 
+import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('Agg')
+import seaborn as sns
+from matplotlib.ticker import MultipleLocator
+import os
+
+employment_long['year'] = employment_long['year'].astype(int)
+
+# Group regional employment data
+avg_employment_by_region = employment_long.groupby(['year', 'region'])['employment_to_pop'].mean().reset_index()
+
+# Group world average separately
+world_avg_employment = employment_long[employment_long['region'] == 'World'].groupby('year')['employment_to_pop'].mean().reset_index()
+
+# --- Filter: Only years >= 1960 ---
+avg_employment_by_region = avg_employment_by_region[avg_employment_by_region['year'] >= 1960]
+world_avg_employment = world_avg_employment[world_avg_employment['year'] >= 1960]
+
+# --- Plot ---
+plt.figure(figsize=(14, 8))
+
+# Plot regional lines (excluding World)
+sns.lineplot(
+    data=avg_employment_by_region[avg_employment_by_region['region'] != 'World'],
+    x='year',
+    y='employment_to_pop',
+    hue='region'
+)
+
+# Plot World Average manually (black thick line)
+plt.plot(
+    world_avg_employment['year'],
+    world_avg_employment['employment_to_pop'],
+    color='black',
+    linewidth=3,
+    label='World Average'
+)
+
+# Titles, labels, ticks
+plt.title('Employment to Population Ratio Over Time by Region (1960–2024)')
+plt.xlabel('Year')
+plt.ylabel('Employment to Population Ratio (%)')
+plt.gca().xaxis.set_major_locator(MultipleLocator(10))
+plt.grid(True)
+
+# Legend (World included)
+plt.legend(title='Region', bbox_to_anchor=(1.05, 1), loc='upper left')
+
+# Layout and save
+plt.tight_layout()
+plt.savefig("figures/employment_to_pop_ratio_by_region.png")
+
+```
 
 
 ### GDP Growth
@@ -62,7 +277,7 @@ import seaborn as sns
 from matplotlib.ticker import MultipleLocator
 from IPython.display import Image, display
 
-# Establish a connection to the SQLite database
+# connection to the SQLite database
 conn = sqlite3.connect("economic_data.db")
 cursor = conn.cursor()
 
@@ -91,7 +306,6 @@ countries.to_sql("countries", conn, if_exists="replace", index=False)
 # List of years as strings
 years = [str(year) for year in range(1960, 2025)]  # 1960–2024
 
-# Join the years with commas and backticks (`) for SQL syntax
 year_columns = ", ".join([f"`{year}`" for year in years])
 
 # Create gdp_growth_clean table with selected columns and join with countries
@@ -543,6 +757,10 @@ display(Image(filename="../figures/avg_gdp_growth_by_income_trend.png"))
 ```
 
 The smoothed income group trends highlight longer-term structural shifts in global GDP growth patterns. Across all income groups, there is a visible gradual decline in average growth rates from the 1960s to the 2020s. Although upper-middle-income countries reached a peak of growth around the early 2000s, this momentum slowed considerably in the following decades. Low-income countries experienced the steepest long-term decline, pointing to persistent challenges such as political instability, lack of infrastructure, and dependency on a narrow range of industries. High-income countries maintained steadier growth but at increasingly lower rates over time, suggesting that mature economies are facing limits to expansion. Together, these smoothed trends imply that broader global factors, such as technological stagnation, demographic shifts, and environmental pressures, are influencing growth trajectories across all income levels, albeit unevenly.
+
+### Davis's Indicator
+
+
 
 ## Conclusion
 

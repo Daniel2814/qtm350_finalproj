@@ -8,7 +8,219 @@ title: "Results and Discussion"
 
 ### Employment to Population Ratio
 
+Here are the results from the Employment to population analysis.
 
+```{python}
+#| label: setup
+#| include: false
+# Import necessary libraries
+
+
+# Connect to the SQLite database
+conn = sqlite3.connect("employment.db")
+cursor = conn.cursor()
+cursor.execute("PRAGMA foreign_keys = ON;")
+print("Database connection established and foreign keys enabled.")
+
+# Load countries metadata
+countries = pd.read_csv("../data/Metadata_Country_API_NY.GDP.MKTP.KD.ZG_DS2_en_csv_v2_19358.csv")
+countries.to_sql("countries", conn, if_exists="replace", index=False)
+
+# Clean employment data by joining with country metadata
+years = [str(year) for year in range(1960, 2025)]
+year_columns = ", ".join([f"`{year}`" for year in years])
+
+query1 = f"""
+DROP TABLE IF EXISTS employment_clean;
+CREATE TABLE employment_clean AS
+SELECT 
+    employment.`Country Name` AS country_name,
+    employment.`Country Code` AS country_code,
+    {year_columns},
+    countries.Region AS region,
+    countries.IncomeGroup AS income_group
+FROM employment
+LEFT JOIN countries
+ON employment.`Country Code` = countries.`Country Code`
+WHERE countries.Region IS NOT NULL;
+"""
+conn.executescript(query1)
+conn.commit()
+
+union_queries = []
+
+for year in years:
+    union_queries.append(f"""
+    SELECT 
+        country_name,
+        country_code,
+        region,
+        income_group,
+        '{year}' AS year,
+        `{year}` AS employment_to_pop
+    FROM employment_clean
+    WHERE `{year}` IS NOT NULL
+    """)
+
+query2 = " UNION ALL ".join(union_queries)
+
+
+create_table_query = f"""
+DROP TABLE IF EXISTS employment_long;
+CREATE TABLE employment_long AS
+{query2}
+"""
+conn.executescript(create_table_query)
+conn.commit()
+
+print("Table employment_long created successfully.")
+
+# Calculate World Average Employment-to-Population Ratio
+query3 = '''
+-- Calculate the world average employment ratio for each year
+WITH world_avg AS (
+    SELECT 
+        year,
+        AVG(employment_to_pop) AS world_avg_employment
+    FROM employment_long
+    WHERE region IS NOT NULL
+    GROUP BY year
+)
+-- Insert world average into employment_long
+INSERT INTO employment_long (country_name, country_code, region, income_group, year, employment_to_pop)
+SELECT 
+    'World' AS country_name,
+    NULL AS country_code,
+    'World' AS region,
+    'World' AS income_group,
+    world_avg.year,
+    world_avg.world_avg_employment
+FROM world_avg;
+'''
+conn.executescript(query3)
+conn.commit()
+
+# summary table by decade
+query4 = '''
+SELECT
+    ((CAST(year AS INTEGER) / 10) * 10) || 's' AS decade,
+    COUNT(employment_to_pop) AS count_obs,
+    MIN(employment_to_pop) AS min_ratio,
+    AVG(employment_to_pop) AS avg_ratio_decade,
+    MAX(employment_to_pop) AS max_ratio
+FROM
+    employment_long
+WHERE
+    region != 'World'
+GROUP BY
+    decade
+ORDER BY
+    decade;
+'''
+decade_summary = pd.read_sql_query(query4, conn)
+
+query5 = '''
+SELECT
+    region,
+    COUNT(DISTINCT country_name) AS n_countries,
+    COUNT(employment_to_pop) AS n_obs,
+    AVG(employment_to_pop) AS avg_ratio,
+    MIN(employment_to_pop) AS min_ratio,
+    MAX(employment_to_pop) AS max_ratio
+FROM
+    employment_long
+GROUP BY
+    region
+ORDER BY
+    region;
+'''
+region_summary = pd.read_sql_query(query5, conn)
+
+query6 = '''
+SELECT
+    income_group,
+    COUNT(DISTINCT country_name) AS n_countries,
+    COUNT(employment_to_pop) AS n_obs,
+    MIN(employment_to_pop) AS min_ratio,
+    AVG(employment_to_pop) AS avg_ratio,
+    MAX(employment_to_pop) AS max_ratio
+FROM
+    employment_long
+WHERE
+    income_group IS NOT NULL
+GROUP BY
+    income_group
+ORDER BY
+    avg_ratio DESC;
+'''
+income_summary = pd.read_sql_query(query6, conn)
+
+employment_long = pd.read_sql_query("SELECT * FROM employment_long", conn)
+
+conn.close()
+
+```
+
+```{python}
+#| label: setup
+#| include: false
+# Import necessary libraries
+import pandas as pd
+import sqlite3 
+import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('Agg')
+import seaborn as sns
+from matplotlib.ticker import MultipleLocator
+import os
+
+employment_long['year'] = employment_long['year'].astype(int)
+
+# Group regional employment data
+avg_employment_by_region = employment_long.groupby(['year', 'region'])['employment_to_pop'].mean().reset_index()
+
+# Group world average separately
+world_avg_employment = employment_long[employment_long['region'] == 'World'].groupby('year')['employment_to_pop'].mean().reset_index()
+
+# --- Filter: Only years >= 1960 ---
+avg_employment_by_region = avg_employment_by_region[avg_employment_by_region['year'] >= 1960]
+world_avg_employment = world_avg_employment[world_avg_employment['year'] >= 1960]
+
+# --- Plot ---
+plt.figure(figsize=(14, 8))
+
+# Plot regional lines (excluding World)
+sns.lineplot(
+    data=avg_employment_by_region[avg_employment_by_region['region'] != 'World'],
+    x='year',
+    y='employment_to_pop',
+    hue='region'
+)
+
+# Plot World Average manually (black thick line)
+plt.plot(
+    world_avg_employment['year'],
+    world_avg_employment['employment_to_pop'],
+    color='black',
+    linewidth=3,
+    label='World Average'
+)
+
+# Titles, labels, ticks
+plt.title('Employment to Population Ratio Over Time by Region (1960–2024)')
+plt.xlabel('Year')
+plt.ylabel('Employment to Population Ratio (%)')
+plt.gca().xaxis.set_major_locator(MultipleLocator(10))
+plt.grid(True)
+
+# Legend (World included)
+plt.legend(title='Region', bbox_to_anchor=(1.05, 1), loc='upper left')
+
+# Layout and save
+plt.tight_layout()
+plt.savefig("figures/employment_to_pop_ratio_by_region.png")
+
+```
 
 ### GDP Growth
 
