@@ -12,4 +12,3 @@ In the context of economic development, the employment-to-population ratio serve
 
 * **`GDP growth`** is a variable that captures the annual percent growth of GDP for countries from 1960 to 2023. More specifically, in the World Development Indicators, this variable is named `NY.GDP.MKTP.KD.ZG.` and can be found [here](https://data.worldbank.org/indicator/NY.GDP.MKTP.KD.ZG). For analysis, we also utilized country metadata that contained information on `region` and `income level`.
 
-* **`Davis's Indicator`**
