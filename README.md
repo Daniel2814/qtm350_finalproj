@@ -15,3 +15,4 @@ The indicactor codes are as such:
 Though this analysis is done at surface level, one can make inferences about how natural resources within general regions affect the development of a country using the indicators mentioned previously. 
 
 Code in this project was written on several different devices and before running, one needs to make sure their working directories are being used instead of ones written in the code itself. After that, the project should render as a quarto report with graphs and a write up.
+
