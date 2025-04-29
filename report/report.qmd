@@ -54,6 +54,12 @@ The next indicator that we are interested in analyzing is GDP growth. In order t
 
 ### GDP per Capita
 
+The time series analysis shows distinct growth patterns across the United States, China, and India. The United States exhibited steady GDP per capita growth, reflecting a mature, innovation-driven economy with resilience to economic shocks. China's GDP per capita remained low until the 1990s, after which it surged rapidly, illustrating the impact of industrialization and economic reforms. India’s growth, though positive, has been more gradual, suggesting ongoing development alongside persistent structural challenges.
+
+PCA and KMeans clustering from 2013–2023 revealed clear groupings of countries by income levels, with the U.S. among the high-income cluster, China moving upward toward middle-to-high income status, and India situated within a growing but still lower-income group. These patterns highlight both persistent global inequality and emerging convergence trends among developing economies.
+
+The GDP per capita forecast for the U.S. projects continued growth, although uncertainties remain. Together, the results demonstrate the varying trajectories of national economic development and underscore the importance of sustained policy efforts to support inclusive growth.
+
 
 ### Employment to Population Ratio
 
