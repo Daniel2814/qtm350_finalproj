@@ -16,7 +16,7 @@ The GDP per capita forecast for the U.S. projects continued growth, although unc
 
 ```{python}
 #| label: setup1
-#| echo: false
+#| include: false
 # Import necessary libraries
 import pandas as pd
 import sqlite3 
@@ -78,10 +78,7 @@ for year in years:
     FROM employment_clean
     WHERE `{year}` IS NOT NULL
     """)
-
 query2 = " UNION ALL ".join(union_queries)
-
-
 create_table_query = f"""
 DROP TABLE IF EXISTS employment_long;
 CREATE TABLE employment_long AS
@@ -91,6 +88,15 @@ conn.executescript(create_table_query)
 conn.commit()
 
 print("Table employment_long created successfully.")
+
+```
+
+```{python}
+#| label: table1
+#| echo: false
+#| message: false
+#| warning: false
+
 
 # Calculate World Average Employment-to-Population Ratio
 query3 = '''
@@ -117,6 +123,16 @@ FROM world_avg;
 conn.executescript(query3)
 conn.commit()
 
+world_avg_emp = pd.read_sql_query(query3, conn)
+world_avg_emp
+
+```
+
+```{python}
+#| label: table2
+#| echo: false
+#| message: false
+#| warning: false
 # summary table by decade
 query4 = '''
 SELECT
@@ -135,6 +151,7 @@ ORDER BY
     decade;
 '''
 decade_summary = pd.read_sql_query(query4, conn)
+decade_summary
 
 query5 = '''
 SELECT
@@ -152,6 +169,7 @@ ORDER BY
     region;
 '''
 region_summary = pd.read_sql_query(query5, conn)
+region_summary
 
 query6 = '''
 SELECT
@@ -171,11 +189,12 @@ ORDER BY
     avg_ratio DESC;
 '''
 income_summary = pd.read_sql_query(query6, conn)
+income_summary
 
 employment_long = pd.read_sql_query("SELECT * FROM employment_long", conn)
 
-conn.close()
 
+conn.close()
 ```
 
 ```{python}
