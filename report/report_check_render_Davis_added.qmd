@@ -57,7 +57,7 @@ The next indicator that we are interested in analyzing is GDP growth. In order t
 
 
 ```{python}
-#| label: setup
+#| label: setup1
 #| include: false
 # Import necessary libraries
 import pandas as pd
@@ -221,7 +221,7 @@ conn.close()
 ```
 
 ```{python}
-#| label: setup
+#| label: setup2
 #| include: false
 # Import necessary libraries
 #| fig.cap: "This is a line plot showing different employment ratios across different regions"
@@ -289,7 +289,7 @@ display(Image(filename="../figures/employment_to_pop_ratio_by_region.png"))
 Here are the results from the GDP Growth analysis. 
 
 ```{python}
-#| label: setup
+#| label: setup3
 #| include: false
 # Import necessary libraries
 import pandas as pd

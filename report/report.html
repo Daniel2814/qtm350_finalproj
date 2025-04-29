@@ -87,23 +87,32 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="data-description">Data Description</h2>
 <p>This data is from the <a href="https://databank.worldbank.org/source/world-development-indicators">World Bank’s World Development Indicators</a>. We will be utilizing a variety of economic development indicators to conduct this analysis. Our main indicators are <code>GDP per capita</code>, <code>employment to population ratio</code>, <code>GDP growth</code>, and <code>Davis's Indicator</code>:</p>
 <ul>
-<li><p><strong><code>GDP per capita</code></strong></p></li>
-<li><p><strong><code>employment to population ratio</code></strong> is a variable that measures the proportion of a country’s working-age population that is currently employed. It reflects the share of people aged 15 and older who are participating in the labor market by holding a job. A higher employment-to-population ratio indicates that a larger percentage of the population is contributing to economic production, while a lower ratio suggests that many individuals are either unemployed, not actively seeking work, or otherwise outside the labor force. This metric is critical for understanding the relationship between labor markets and economic development. This variable is named <code>L.EMP.TOTL.SP.ZS.</code> and can be found <a href="https://data.worldbank.org/indicator/SL.EMP.TOTL.SP.ZS.">here</a>. For analysis, we also utilized country metadata that contained information on <code>region</code>.</p></li>
+<li><strong><code>GDP per capita</code></strong> represented by the indicator NY.GDP.PCAP.KD, measures a country’s economic output divided by its population, adjusted for inflation using constant 2015 US dollars. It reflects the average income or productivity per person and is commonly used as a proxy for a country’s standard of living and overall economic development. This data was obtained from the World Bank and spans from 1960 to 2023 for most countries. We supplemented the GDP data with country-level metadata including country codes and regions, which allowed for comparative and regional analyses across global economies.</li>
+</ul>
+<p>The dataset includes annual GDP per capita values for a wide range of countries, enabling longitudinal comparisons and trend analysis. The use of constant dollars helps control for inflation and facilitates meaningful comparisons over time. We focused on three countries—the United States (USA), China (CHN), and India (IND)—to examine contrasting economic trajectories, and we also included clustering and forecasting techniques to further explore global patterns and project future developments.</p>
+<ul>
+<li><strong><code>employment to population ratio</code></strong> is a variable that measures the proportion of a country’s working-age population that is currently employed. It reflects the share of people aged 15 and older who are participating in the labor market by holding a job. A higher employment-to-population ratio indicates that a larger percentage of the population is contributing to economic production, while a lower ratio suggests that many individuals are either unemployed, not actively seeking work, or otherwise outside the labor force. This metric is critical for understanding the relationship between labor markets and economic development. This variable is named <code>L.EMP.TOTL.SP.ZS.</code> and can be found <a href="https://data.worldbank.org/indicator/SL.EMP.TOTL.SP.ZS.">here</a>. For analysis, we also utilized country metadata that contained information on <code>region</code>.</li>
 </ul>
 <p>In the context of economic development, the employment-to-population ratio serves as an important indicator of how well an economy is utilizing its human resources. A rising ratio typically suggests positive development trends, such as increasing job creation, greater access to employment opportunities, and improved living standards. Economies with consistently high employment-to-population ratios often experience broader economic growth, higher productivity, and reduced poverty rates. Conversely, a low ratio can signal structural problems like weak labor market demand, gender disparities in employment, or a mismatch between skills and job opportunities. Natural resource dependence can also influence this ratio: in countries heavily reliant on oil or mining, wealth may be generated without widespread employment, leading to lower overall participation rates despite high national incomes. Thus, analyzing changes in the employment-to-population ratio over time offers key insights into the inclusiveness and sustainability of economic growth.</p>
 <ul>
 <li><strong><code>GDP growth</code></strong> is a variable that captures the annual percent growth of GDP for countries from 1960 to 2023. More specifically, in the World Development Indicators, this variable is named <code>NY.GDP.MKTP.KD.ZG.</code> and can be found <a href="https://data.worldbank.org/indicator/NY.GDP.MKTP.KD.ZG">here</a>. For analysis, we also utilized country metadata that contained information on <code>region</code> and <code>income level</code>.</li>
+<li><strong><code>Davis's Indicator</code></strong></li>
 </ul>
 </section>
 <section id="data-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="data-analysis">Data Analysis</h2>
 <section id="gdp-per-capita" class="level3">
 <h3 class="anchored" data-anchor-id="gdp-per-capita">GDP per Capita</h3>
+<p>The time series analysis of GDP per capita reveals significant differences in the economic development trajectories of the USA, China, and India. The USA shows a consistent upward trend over the past six decades, with only minor dips during economic recessions. Its GDP per capita remains among the highest globally, highlighting its established infrastructure, productivity, and high standard of living.</p>
+<p>In contrast, China’s GDP per capita remained relatively flat until the 1990s, after which it began to rise exponentially. This reflects the country’s rapid industrialization, export-driven growth, and policy reforms that integrated it into the global economy. India’s growth has also accelerated in recent decades, though at a slower pace than China’s. The data shows a steady increase from the early 2000s onward, indicative of ongoing development, expansion of services, and infrastructure investment.</p>
+<p>To explore future trends, we applied a time series forecasting model to project the USA’s GDP per capita for upcoming years. While the model suggests continued growth, this projection is subject to uncertainty due to potential global economic fluctuations.</p>
+<p>We also conducted a PCA (Principal Component Analysis) and KMeans clustering on GDP per capita data from 2013 to 2023 to identify global development patterns. This dimensionality reduction technique allowed us to visualize economic similarity between countries, revealing three main clusters: high-income economies, emerging markets, and lower-income nations. The clustering results emphasize persistent global inequality in economic output per person, while also identifying convergence among some developing countries.</p>
+<p>Together, these analyses offer a multifaceted view of how economies have evolved, diverged, and converged in terms of per capita income, and provide a framework for understanding global economic dynamics and potential future trends.</p>
 </section>
 <section id="employment-to-population-ratio" class="level3">
 <h3 class="anchored" data-anchor-id="employment-to-population-ratio">Employment to Population Ratio</h3>
 <p>The Employment-to-Population Ratio trends from 1990-2024 (Many too many data points were excluded before 1990, so it did not necessarily make sense to show N/A values) show clear differences across global regions, revealing important insights about labor market dynamics and economic structures. North America and East Asia &amp; Pacific consistently maintain the highest employment-to-population ratios, while the Middle East &amp; North Africa region shows persistently lower levels. A sharp global decline around 2020 reflects the impact of the COVID-19 pandemic, after which most regions partially recovered, although some — particularly Latin America and Europe — continued to lag. Notably, Sub-Saharan Africa exhibits a relatively resilient employment pattern despite ongoing global shocks, likely due to its labor-intensive informal economy. Overall, the World Average line demonstrates a slow, steady decline over time, highlighting a global trend toward slightly lower labor market participation.</p>
-<p>Natural resources play a critical role in explaining these regional differences. Resource-rich economies, particularly those dependent on oil exports such as those in the Middle East and North Africa, often exhibit lower employment-to-population ratios. This reflects the “resource curse,” where resource wealth does not translate into widespread job creation due to capital-intensive industries dominating national output. In contrast, regions like Sub-Saharan Africa, heavily reliant on agriculture and mining, maintain higher employment ratios despite lower GDP per capita, driven by the need for broad participation in informal sectors. The relative resilience of East Asia and North America further suggests that diversified economies with strong service and industrial sectors are better positioned to maintain stable employment levels, even during global disruptions. These findings are consistent with research from the World Bank (2021), the International Labour Organization (2020), and Sachs and Warner (1995), which collectively emphasize the importance of economic diversification in sustaining employment growth. Hello</p>
+<p>Natural resources play a critical role in explaining these regional differences. Resource-rich economies, particularly those dependent on oil exports such as those in the Middle East and North Africa, often exhibit lower employment-to-population ratios. This reflects the “resource curse,” where resource wealth does not translate into widespread job creation due to capital-intensive industries dominating national output. In contrast, regions like Sub-Saharan Africa, heavily reliant on agriculture and mining, maintain higher employment ratios despite lower GDP per capita, driven by the need for broad participation in informal sectors. The relative resilience of East Asia and North America further suggests that diversified economies with strong service and industrial sectors are better positioned to maintain stable employment levels, even during global disruptions. These findings are consistent with research from the World Bank (2021), the International Labour Organization (2020), and Sachs and Warner (1995), which collectively emphasize the importance of economic diversification in sustaining employment growth.</p>
 </section>
 <section id="gdp-growth" class="level3">
 <h3 class="anchored" data-anchor-id="gdp-growth">GDP Growth</h3>
@@ -122,8 +131,8 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="gdp-growth-1">GDP Growth</h3>
 <p>Here are the results from the GDP Growth analysis.</p>
 <p>The table below summarizes GDP growth statistics across decades.</p>
-<div id="cell-table-decade" class="cell" data-message="false" data-execution_count="2">
-<div id="table-decade" class="cell-output cell-output-display" data-execution_count="2">
+<div id="cell-table-decade" class="cell" data-message="false" data-execution_count="4">
+<div id="table-decade" class="cell-output cell-output-display" data-execution_count="15">
 <div>
 
 
@@ -203,8 +212,8 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <p>The 1960s exhibited the highest average GDP growth (~5.46%), while 2020 to present had the lowest average (~2.00%) across the world. The 1990s showed notable volatility with the widest range in growth rates (-64% to +150%). This pattern highlights a long-term slowdown of global economic expansion over the past six decades.</p>
 <p>The table below summarizes GDP growth by world region.</p>
-<div id="cell-table-region" class="cell" data-message="false" data-execution_count="3">
-<div id="table-region" class="cell-output cell-output-display" data-execution_count="3">
+<div id="cell-table-region" class="cell" data-message="false" data-execution_count="5">
+<div id="table-region" class="cell-output cell-output-display" data-execution_count="16">
 <div>
 
 
@@ -301,8 +310,8 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <p>When broken down by region, the Middle East and North Africa had the highest average GDP growth (~4.93%) compared to other world regions from 1960 to 2023. This is likely due to oil wealth and energy exports in this region. North America had the slowest average growth (~2.82%) during this time period. This is consistent with trends observed in developed economies with mature markets and slower population growth. The variabiltiy seen across regions suggest that resource wealth, political stability, and demographic factors strongly influence long-term GDP trajectories.</p>
 <p>The table below summarizes GDP growth by income group.</p>
-<div id="cell-table-income" class="cell" data-message="false" data-execution_count="4">
-<div id="table-income" class="cell-output cell-output-display" data-execution_count="4">
+<div id="cell-table-income" class="cell" data-message="false" data-execution_count="6">
+<div id="table-income" class="cell-output cell-output-display" data-execution_count="17">
 <div>
 
 
@@ -372,7 +381,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <p>Among income groups, Upper Middle Income countries experienced the highest average growth (~4.04%) from 1960 to 2023, while High Income countries had lower average growth (~3.26%) during this time period. The Upper Middle Income country growth reflects the rapid industrialization and modernization of economies such as China, Malaysia, and Turkey from 1960 to 2023. The more stable, lower growth experienced by High Income countries reinforces the idea that as economies mature, growth rates naturally slow. This comparison shows the importance of the development stage in driving economic performance across countries.</p>
 <p>This first figure displays average GDP growth over time by region.</p>
-<div id="cell-fig-region" class="cell" data-fig.cap="This is a line plot showing GDP growth over time for different regions of the world" data-message="false" data-execution_count="6">
+<div id="cell-fig-region" class="cell" data-fig.cap="This is a line plot showing GDP growth over time for different regions of the world" data-message="false" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div id="fig-region" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -388,7 +397,7 @@ Figure&nbsp;1
 </div>
 <p>While short-term fluctuations are common across the globe, a general decline in growth rates is observed post-1970s across most regions. It is clear on the figure that all world regions experienced high short-term volatility, especially Sub-Saharan Africa and South Asia, with many regions experiencing sharp dips around known global recessions (i.e.&nbsp;the early 1980s and late 2000s). The world average (thicker black line) remains relatively stable compared to the volatility shown in other regions, with spikes and dips corresponding to major global events. The world average also demonstrates how the global economy exhibits greater resilience and inertia compared to individual regions.</p>
 <p>The second figure presents a smoothed trend line of GDP growth over time by world region.</p>
-<div id="cell-fig-regionsmooth" class="cell" data-fig.cap="This is a line plot showing smoothed GDP growth over time for different regions of the world" data-message="false" data-execution_count="7">
+<div id="cell-fig-regionsmooth" class="cell" data-fig.cap="This is a line plot showing smoothed GDP growth over time for different regions of the world" data-message="false" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div id="fig-regionsmooth" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -404,7 +413,7 @@ Figure&nbsp;2
 </div>
 <p>This reveals a clearer long-term downward trend of GDP growth across all regions in the world. Notably, Sub-Saharan Africa, the Middle East and North Africa, and South Asia initially experienced relatively high growth, but later their growth rates converged downward with other regions. North America and Europe and Central Asia have shown the lowest growth decline trajectory so far. This is likely explained by structural factors, such as aging populations, slower technological diffusion, and diminishing returns to capital.</p>
 <p>The below figure displays the average GDP growth over time by country income level.</p>
-<div id="cell-fig-income" class="cell" data-fig.cap="This is a line plot showing GDP growth over time for countries of different income levels" data-message="false" data-execution_count="8">
+<div id="cell-fig-income" class="cell" data-fig.cap="This is a line plot showing GDP growth over time for countries of different income levels" data-message="false" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div id="fig-income" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -420,7 +429,7 @@ Figure&nbsp;3
 </div>
 <p>This income group graphs show that GDP growth trends differ substantially across income levels. High-income countries experienced relatively stable and moderate growth throughout the observed period, with smaller fluctuations even during major global events such as the 2008 financial crisis and the 2020 pandemic. In contrast, lower-middle-income and low-income countries exhibited much greater volatility, with sharp downturns during periods of global recession. Upper-middle-income countries generally achieved higher average growth rates, particularly during the 1990s and early 2000s, but their growth also became less consistent after 2008. These patterns suggest that lower-income countries are more vulnerable to external shocks, while high-income countries are more insulated due to stronger economic institutions and diversification.</p>
 <p>This last figure presents a smoothed trend line of GDP growth over time by country income level.</p>
-<div id="cell-fig-incomesmooth" class="cell" data-fig.cap="This is a line plot showing smoothed GDP growth over time for countries of different income levels" data-message="false" data-execution_count="9">
+<div id="cell-fig-incomesmooth" class="cell" data-fig.cap="This is a line plot showing smoothed GDP growth over time for countries of different income levels" data-message="false" data-execution_count="11">
 <div class="cell-output cell-output-display">
 <div id="fig-incomesmooth" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
