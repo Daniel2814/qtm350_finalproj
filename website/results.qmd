@@ -238,6 +238,8 @@ display(Image(filename="../figures/employment_to_pop_ratio_by_region.png"))
 
 ```
 
+This chart shows how employment-to-population ratios have evolved across global regions from 1990 to 2024. North America and East Asia & Pacific consistently maintain the highest employment rates, while the Middle East & North Africa region remains persistently lower. A sharp decline around 2020 is visible across all regions, reflecting the impact of the COVID-19 pandemic, though most regions show signs of partial recovery afterward. Overall, the world average exhibits a slow, steady decline over time, highlighting long-term global shifts in labor market participation.
+
 ### GDP Growth
 
 Here are the results from the GDP Growth analysis. 
@@ -514,7 +516,6 @@ plt.title('Average GDP Growth Over Time by Region')
 plt.xlabel('Year')
 plt.ylabel('Average GDP Growth (%)')
 
-# Adjust the legend to include world average
 plt.legend(title='Region', bbox_to_anchor=(1.05, 1), loc='upper left')
 
 plt.gca().xaxis.set_major_locator(MultipleLocator(10))
