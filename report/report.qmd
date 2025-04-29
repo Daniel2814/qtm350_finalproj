@@ -8,7 +8,11 @@ format: html
 
 ## Introduction
 
+This project analyzes global economic development using data from the World Bank's World Development Indicators, focusing on three key measures: GDP per capita, employment-to-population ratio, and GDP growth, along with a composite metric that uses the aforementioned indicators to find relationships between countries with high average growth rates
 
+Each indicator highlights a different aspect of development—income levels, labor market participation, and economic growth—offering a comprehensive view of how countries evolve over time. We use case studies of the United States, China, and India to illustrate contrasting growth paths, and apply techniques such as Principal Component Analysis (PCA), clustering, forecasting, and SQL-based data cleaning to uncover broader patterns and trends.
+
+Overall, this analysis provides insights into global disparities, regional dynamics, and the challenges and opportunities facing economies worldwide.
 
 ## Data Description
 
@@ -791,4 +795,8 @@ display(Image(filename="../figures/avg_gdp_growth_by_income_trend.png"))
 The smoothed income group trends highlight longer-term structural shifts in global GDP growth patterns. Across all income groups, there is a visible gradual decline in average growth rates from the 1960s to the 2020s. Although upper-middle-income countries reached a peak of growth around the early 2000s, this momentum slowed considerably in the following decades. Low-income countries experienced the steepest long-term decline, pointing to persistent challenges such as political instability, lack of infrastructure, and dependency on a narrow range of industries. High-income countries maintained steadier growth but at increasingly lower rates over time, suggesting that mature economies are facing limits to expansion. Together, these smoothed trends imply that broader global factors, such as technological stagnation, demographic shifts, and environmental pressures, are influencing growth trajectories across all income levels, albeit unevenly.
 
 ## Conclusion
+
+This analysis of GDP per capita, employment-to-population ratio, and GDP growth across countries and regions offers a comprehensive view of global economic development over the past several decades. Through time series analysis, clustering, and forecasting, we identified distinct growth trajectories among nations like the United States, China, and India, highlighting both persistent inequalities and signs of economic convergence. The employment-to-population ratio further revealed key differences in labor market participation, often shaped by structural factors such as resource dependence and economic diversification. Lastly, our study of GDP growth trends showed a broad decline in growth rates since the 1960s, with higher volatility and vulnerability among lower-income countries, and slower, steadier growth in high-income economies.
+
+Together, these findings underscore the importance of inclusive, sustainable policies that support long-term development. While some emerging economies are rapidly catching up, global disparities in income, employment, and resilience to economic shocks remain significant. Monitoring these indicators over time provides valuable insight into the evolving challenges and opportunities facing the world economy.
 

@@ -1,3 +1,7 @@
 ---
 title: "Conclusion"
 ---
+
+This analysis of GDP per capita, employment-to-population ratio, and GDP growth across countries and regions offers a comprehensive view of global economic development over the past several decades. Through time series analysis, clustering, and forecasting, we identified distinct growth trajectories among nations like the United States, China, and India, highlighting both persistent inequalities and signs of economic convergence. The employment-to-population ratio further revealed key differences in labor market participation, often shaped by structural factors such as resource dependence and economic diversification. Lastly, our study of GDP growth trends showed a broad decline in growth rates since the 1960s, with higher volatility and vulnerability among lower-income countries, and slower, steadier growth in high-income economies.
+
+Together, these findings underscore the importance of inclusive, sustainable policies that support long-term development. While some emerging economies are rapidly catching up, global disparities in income, employment, and resilience to economic shocks remain significant. Monitoring these indicators over time provides valuable insight into the evolving challenges and opportunities facing the world economy.
