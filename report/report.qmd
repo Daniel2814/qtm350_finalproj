@@ -908,7 +908,7 @@ Let us see if we can find any meaningful connections between these coutnries whe
 #| echo: false
 #| message: false
 #| warning: false
-#| #| fig.cap: "This is a line graph showing exports and imports as a percent of GDP  over time for our Top 5 countries"
+#| fig.cap: "This is a line graph showing exports and imports as a percent of GDP  over time for our Top 5 countries"
 import matplotlib.pyplot as plt
 merged_data = pd.merge(top5_avg, data_EXP, on="Country Name", how='inner')
 
@@ -952,7 +952,7 @@ Speaking on GDP growth, let us look at and compare the nominal GDP growth for ea
 #| echo: false
 #| message: false
 #| warning: false
-#| #| fig.cap: "This is a line graph showing the Change in GDP nominally for our Top 5 countries"
+#| fig.cap: "This is a line graph showing the Change in GDP nominally for our Top 5 countries"
 import pandas as pd
 merged_data2 = pd.merge(top5_avg, data_GDP_per_cap, on="Country Name", how='inner')
 
@@ -993,7 +993,7 @@ Let us now go onto to look at the relationship between employment percentages
 #| echo: false
 #| message: false
 #| warning: false
-#| #| fig.cap: "This is a line graph showing the Change in Employment for our Top 5 countries"
+#| fig.cap: "This is a line graph showing the Change in Employment for our Top 5 countries"
 merged_data3 = pd.merge(top5_avg, data_Employment, on="Country Name", how='inner')
 
 # Example: Assuming `merged_data` contains your data
