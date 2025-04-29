@@ -89,14 +89,6 @@ conn.commit()
 
 print("Table employment_long created successfully.")
 
-```
-
-```{python}
-#| label: table1
-#| echo: false
-#| message: false
-#| warning: false
-
 
 # Calculate World Average Employment-to-Population Ratio
 query3 = '''
@@ -123,16 +115,6 @@ FROM world_avg;
 conn.executescript(query3)
 conn.commit()
 
-world_avg_emp = pd.read_sql_query(query3, conn)
-world_avg_emp
-
-```
-
-```{python}
-#| label: table2
-#| echo: false
-#| message: false
-#| warning: false
 # summary table by decade
 query4 = '''
 SELECT
@@ -151,7 +133,6 @@ ORDER BY
     decade;
 '''
 decade_summary = pd.read_sql_query(query4, conn)
-decade_summary
 
 query5 = '''
 SELECT
@@ -169,7 +150,6 @@ ORDER BY
     region;
 '''
 region_summary = pd.read_sql_query(query5, conn)
-region_summary
 
 query6 = '''
 SELECT
@@ -189,7 +169,6 @@ ORDER BY
     avg_ratio DESC;
 '''
 income_summary = pd.read_sql_query(query6, conn)
-income_summary
 
 employment_long = pd.read_sql_query("SELECT * FROM employment_long", conn)
 

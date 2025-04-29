@@ -69,7 +69,7 @@ The GDP per capita forecast for the U.S. projects continued growth, although unc
 
 ```{python}
 #| label: setup1
-#| echo: false
+#| include: false
 # Import necessary libraries
 import pandas as pd
 import sqlite3 
