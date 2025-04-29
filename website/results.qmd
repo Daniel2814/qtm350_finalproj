@@ -10,13 +10,13 @@ PCA and KMeans clustering from 2013–2023 revealed clear groupings of countries
 
 The GDP per capita forecast for the U.S. projects continued growth, although uncertainties remain. Together, the results demonstrate the varying trajectories of national economic development and underscore the importance of sustained policy efforts to support inclusive growth.
 
+
 ### Employment to Population Ratio
 
-Here are the results from the Employment to population analysis.
 
 ```{python}
-#| label: setup
-#| include: false
+#| label: setup1
+#| echo: false
 # Import necessary libraries
 import pandas as pd
 import sqlite3 
@@ -179,8 +179,8 @@ conn.close()
 ```
 
 ```{python}
-#| label: setup
-#| include: false
+#| label: setup2
+#| echo: false
 # Import necessary libraries
 #| fig.cap: "This is a line plot showing different employment ratios across different regions"
 import pandas as pd
@@ -242,14 +242,12 @@ display(Image(filename="../figures/employment_to_pop_ratio_by_region.png"))
 
 ```
 
-This chart shows how employment-to-population ratios have evolved across global regions from 1990 to 2024. North America and East Asia & Pacific consistently maintain the highest employment rates, while the Middle East & North Africa region remains persistently lower. A sharp decline around 2020 is visible across all regions, reflecting the impact of the COVID-19 pandemic, though most regions show signs of partial recovery afterward. Overall, the world average exhibits a slow, steady decline over time, highlighting long-term global shifts in labor market participation.
-
 ### GDP Growth
 
 Here are the results from the GDP Growth analysis. 
 
 ```{python}
-#| label: setup
+#| label: setup3
 #| include: false
 # Import necessary libraries
 import pandas as pd
@@ -261,7 +259,7 @@ import seaborn as sns
 from matplotlib.ticker import MultipleLocator
 from IPython.display import Image, display
 
-# Establish a connection to the SQLite database
+# connection to the SQLite database
 conn = sqlite3.connect("economic_data.db")
 cursor = conn.cursor()
 
@@ -290,7 +288,6 @@ countries.to_sql("countries", conn, if_exists="replace", index=False)
 # List of years as strings
 years = [str(year) for year in range(1960, 2025)]  # 1960–2024
 
-# Join the years with commas and backticks (`) for SQL syntax
 year_columns = ", ".join([f"`{year}`" for year in years])
 
 # Create gdp_growth_clean table with selected columns and join with countries
@@ -520,6 +517,7 @@ plt.title('Average GDP Growth Over Time by Region')
 plt.xlabel('Year')
 plt.ylabel('Average GDP Growth (%)')
 
+# Adjust the legend to include world average
 plt.legend(title='Region', bbox_to_anchor=(1.05, 1), loc='upper left')
 
 plt.gca().xaxis.set_major_locator(MultipleLocator(10))
@@ -741,3 +739,239 @@ display(Image(filename="../figures/avg_gdp_growth_by_income_trend.png"))
 ```
 
 The smoothed income group trends highlight longer-term structural shifts in global GDP growth patterns. Across all income groups, there is a visible gradual decline in average growth rates from the 1960s to the 2020s. Although upper-middle-income countries reached a peak of growth around the early 2000s, this momentum slowed considerably in the following decades. Low-income countries experienced the steepest long-term decline, pointing to persistent challenges such as political instability, lack of infrastructure, and dependency on a narrow range of industries. High-income countries maintained steadier growth but at increasingly lower rates over time, suggesting that mature economies are facing limits to expansion. Together, these smoothed trends imply that broader global factors, such as technological stagnation, demographic shifts, and environmental pressures, are influencing growth trajectories across all income levels, albeit unevenly.
+
+### Identifying Drivers of Sustained Economic Growth: An Analysis of High-Performing Economies
+
+
+In addition to looking at global GDP growth, we aim to identify factors that contribute to the highest sustained economic growth. We will measure economic growth by examining the percentage increase in GDP over time and focus our analysis on the top five countries with the highest growth rates.
+
+```{python}
+#| echo: false
+#| message: false
+#| warning: false
+
+import pandas as pd
+
+# Read data for exports, GDP, and employment
+data_EXP = pd.read_csv(
+    "../data/API_NE.EXP.GNFS.ZS_DS2_en_csv_v2_19646.csv"
+)
+data_GDP = pd.read_csv(
+    "../data/API_NY.GDP.PCAP.KD_DS2_en_csv_v2_19405.csv", 
+    skiprows=4
+)
+data_GDP_per_cap = pd.read_csv(
+    "../data/API_NY.GDP.PCAP.KD_DS2_en_csv_v2_19405.csv", 
+    skiprows=4
+)
+data_Employment = pd.read_csv(
+    "../data/API_SL.EMP.TOTL.SP.ZS_DS2_en_csv_v2_23936.csv", 
+    skiprows=4
+)
+# List of year columns
+year_cols = [str(year) for year in range(1990, 2025)]
+
+# Calculate year-to-year percentage change
+df_pct_change = data_GDP.copy()
+df_pct_change[year_cols] = data_GDP[year_cols].pct_change(axis=1) * 100  # multiply by 100 to get percent
+
+# Create new ranked columns
+ranked_cols = [f"{col}_rank" for col in year_cols]  # new names like '1960_rank', '1961_rank', etc.
+
+# Make a copy and rank each year column
+df_ranked = df_pct_change.copy()
+for original, new in zip(year_cols, ranked_cols):
+    df_ranked[new] = df_ranked[original].rank(ascending=False, method='min')  # highest value gets rank 1
+
+# Now sum all the ranking columns into a new column
+df_ranked['Total_Rank'] = df_ranked[ranked_cols].sum(axis=1)
+
+# Exclude countries with "Asia" in the name or starting with "Late"
+df_ranked = df_ranked[~df_ranked['Country Name'].str.contains('Asia', case=False, na=False)]
+df_ranked = df_ranked[~df_ranked['Country Name'].str.lower().str.startswith('late', na=False)]
+df_ranked = df_ranked[~df_ranked['Country Name'].str.lower().str.startswith('upper', na=False)]
+# Calculate the average rank for each row (ignoring NaNs)
+df_ranked['Average_Rank'] = df_ranked[ranked_cols].mean(axis=1, skipna=True)
+
+# View the top 5 rows with the lowest Average_Rank
+top5_avg = df_ranked.nsmallest(5, 'Average_Rank')
+
+print(top5_avg[['Country Name', 'Average_Rank']])
+
+```
+
+These 5 highest countries are China, Viet Nam, Myanmar, Kosovo and Lao PDR. Let us put htem up on a graph to show their relationship over time
+
+```{python}
+#| label: fig-ChangeGDPTop5
+#| echo: false
+#| message: false
+#| warning: false
+#| fig.cap: "This is a line graph showing GDP growth over time for the 5 countries with the highest average growth rate"
+
+import matplotlib.pyplot as plt
+
+# Assume top5_avg is already created
+year_cols = [str(year) for year in range(1990, 2025)]
+
+# Set up the plot
+plt.figure(figsize=(12, 8))
+
+# Plot each row in top5_avg
+for idx, row in top5_avg.iterrows():
+    plt.plot(
+        year_cols,
+        row[year_cols].values,
+        label=row['Country Name']
+    )
+
+# Add horizontal line at 2% GDP growth
+plt.axhline(y=2, color='red', linestyle='--', linewidth=2, label='Healthy GDP growth rate')
+
+# Customize the plot
+plt.title('Change in GDP per capita Year by Year (Top 5)', fontsize=16)
+plt.xlabel('Year', fontsize=14)
+plt.ylabel('% Change in GDP', fontsize=14)
+
+# Set x-ticks to every 5 years
+xticks = [str(year) for year in range(1990, 2025, 5)]
+plt.xticks(ticks=xticks, rotation=45)
+
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+
+# Show the plot
+plt.savefig('../figures/ChangeGDPTop5.png')
+display(Image(filename="../figures/ChangeGDPTop5.png"))
+```
+
+Economists state that a health gdp growth rate is 2% we see that on average, our top 5 countries are always above the average, excluding the huge drop during COVID.
+
+Let us see if we can find any meaningful connections between these coutnries when looking at percent of Export and Imports as a portion of GDP
+
+```{python}
+#| label: fig-ChangeEXPTop5
+#| echo: false
+#| message: false
+#| warning: false
+#| fig.cap: "This is a line graph showing exports and imports as a percent of GDP  over time for our Top 5 countries"
+import matplotlib.pyplot as plt
+merged_data = pd.merge(top5_avg, data_EXP, on="Country Name", how='inner')
+
+# Example: Assuming `merged_data` contains your data
+year_cols = [f'{year}_y' for year in range(1990, 2025)]  # Columns like '1960_y', '1961_y', etc.
+
+# Set up the plot
+plt.figure(figsize=(12, 8))
+
+# Plot each country's data over time (one line per country)
+for idx, row in merged_data.iterrows():
+    plt.plot(year_cols, row[year_cols].values, label=row['Country Name'], marker='o')
+
+# Customize the plot
+plt.title('Exports of goods and services Over Time for Top 5', fontsize=16)
+plt.xlabel('Year', fontsize=14)
+plt.ylabel('(% of GDP)', fontsize=14)
+
+# Set x-ticks to every 5 years
+xticks = [f'{year}_y' for year in range(1990, 2025, 5)]
+plt.xticks(ticks=xticks, labels=[str(year) for year in range(1990, 2025, 5)], rotation=45)
+
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+
+# Show the plot
+plt.savefig('../figures/ChangeEXPTop5.png')
+
+display(Image(filename="../figures/ChangeEXPTop5.png"))
+```
+
+When looking at the percentage of GDP made up by exports and imports, we see a clear difference between China, Vietnam, Myanmar, Kosovo, and Lao PDR. This variation highlights how trade can be a powerful tool for economic growth. By expanding exports, countries can generate more income, create jobs, and bring in foreign currency, which can be reinvested into infrastructure, education, and technology. Similarly, imports allow countries to access goods, services, and technology that they do not produce themselves, helping to improve productivity and competitiveness.
+For example, Vietnam has aggressively expanded its export sector over the past three decades by integrating into global supply chains, especially in electronics, textiles, and manufacturing. This strategy has helped Vietnam achieve rapid economic growth, reduce poverty, and transition from a primarily agricultural economy to one focused on industry and services. In contrast, China used trade as a major driver of its economic rise by becoming the "world’s factory," exporting a vast range of manufactured goods while simultaneously importing raw materials and high-tech equipment to fuel its industrial expansion.
+Even smaller economies like Kosovo have used trade to stimulate growth. By opening its markets and increasing exports, especially in sectors like metals, textiles, and services, Kosovo has worked to create more job opportunities and strengthen its economy, even though challenges remain.
+In short, we see that our countries have successfully used exports and imports to connect with the global economy which contributed to faster GDP growth.
+
+Speaking on GDP growth, let us look at and compare the nominal GDP growth for each of the countries, and see if there are any meaningful relationships there.
+```{python}
+#| label: fig-GDPPerCapNomTop5
+#| echo: false
+#| message: false
+#| warning: false
+#| fig.cap: "This is a line graph showing the Change in GDP nominally for our Top 5 countries"
+import pandas as pd
+merged_data2 = pd.merge(top5_avg, data_GDP_per_cap, on="Country Name", how='inner')
+
+# Example: Assuming `merged_data` contains your data
+year_cols = [f'{year}_y' for year in range(1990, 2025)]  # Columns like '1960_y', '1961_y', etc.
+
+# Set up the plot
+plt.figure(figsize=(12, 8))
+
+# Plot each country's data over time (one line per country)
+for idx, row in merged_data2.iterrows():
+    plt.plot(year_cols, row[year_cols].values, label=row['Country Name'], marker='o')
+
+# Customize the plot
+plt.title('GDP Per Capita Over Time (Top5)', fontsize=16)
+plt.xlabel('Year', fontsize=14)
+plt.ylabel('(GDP Per Capita)', fontsize=14)
+
+# Set x-ticks to every 5 years
+xticks = [f'{year}_y' for year in range(1990, 2025, 5)]
+plt.xticks(ticks=xticks, labels=[str(year) for year in range(1990, 2025, 5)], rotation=45)
+
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+
+# Show the plot
+plt.savefig('../figures/GDPPerCapNomTop5.png')
+display(Image(filename="../figures/GDPPerCapNomTop5.png"))
+```
+
+The graph presented examines nominal GDP per capita over time to assess the economic growth trajectories of our top five countries. By focusing on nominal GDP per capita, the graph aims to provide a clearer understanding of each country’s initial economic position and how it evolves over time. Upon review, we observe that there is little correlation between the starting GDP per capita of the countries, as they begin at different levels yet still experience significant economic growth. While the goal was to explore the influence of initial economic conditions on long-term growth patterns, the results do not strongly support this hypothesis. Instead, it becomes apparent that the varying starting points in capital across the countries did not seem to hinder their ability to achieve high rates of growth.
+
+
+Let us now go onto to look at the relationship between employment percentages
+```{python}
+#| label: fig-EmployRatioTop5
+#| echo: false
+#| message: false
+#| warning: false
+#| fig.cap: "This is a line graph showing the Change in Employment for our Top 5 countries"
+merged_data3 = pd.merge(top5_avg, data_Employment, on="Country Name", how='inner')
+
+# Example: Assuming `merged_data` contains your data
+year_cols = [f'{year}_y' for year in range(1990, 2025)]  # Columns like '1960_y', '1961_y', etc.
+
+# Set up the plot
+plt.figure(figsize=(12, 8))
+
+# Plot each country's data over time (one line per country)
+for idx, row in merged_data3.iterrows():
+    plt.plot(year_cols, row[year_cols].values, label=row['Country Name'], marker='o')
+
+# Customize the plot
+plt.title('Employment Ratio (Top5)', fontsize=16)
+plt.xlabel('Year', fontsize=14)
+plt.ylabel('(Percent Workforce Employed)', fontsize=14)
+
+# Set x-ticks to every 5 years
+xticks = [f'{year}_y' for year in range(1990, 2025, 5)]
+plt.xticks(ticks=xticks, labels=[str(year) for year in range(1990, 2025, 5)], rotation=45)
+
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+
+# Show the plot
+plt.savefig('../figures/EmployRatioTop5.png')
+display(Image(filename="../figures/EmployRatioTop5.png"))
+```
+
+Across China, Vietnam, Myanmar, Kosovo, and Lao PDR, employment ratios show some common patterns alongside important differences. In general, countries that have embraced export-led growth strategies, industrialization, and international trade tend to have higher employment ratios and have created more formal job opportunities. Meanwhile, countries that remain heavily dependent on agriculture or have less diversified economies often experience lower employment ratios, with a larger share of workers engaged in informal or subsistence activities.
+Focusing specifically on Vietnam and Lao PDR highlights these trends clearly. Vietnam has maintained a high employment ratio, thanks to its rapid industrialization and integration into global markets. Since the 1990s, Vietnam’s shift from a primarily agricultural economy to a manufacturing and services-driven one has created millions of jobs in factories, technology firms, and export-oriented industries. Trade agreements with major partners like the United States, the European Union, and neighboring Asian countries have further boosted employment by attracting foreign investment and expanding Vietnam’s access to global markets.
+In contrast, Lao PDR has a much lower employment ratio. Although Laos has also experienced economic growth, much of its labor force remains tied to agriculture, often in informal or subsistence roles. Industrial and manufacturing sectors are smaller, and trade is less diversified, limiting the number of formal job opportunities available. While sectors like hydropower and mining have driven some growth, they tend to be capital-intensive rather than labor-intensive, meaning they generate fewer jobs relative to their economic output.
+Despite these differences, all five countries have maintained relatively high GDP growth rates in recent years. Strong employment growth, especially in Vietnam, has played a key role by boosting domestic demand, increasing household incomes, and enabling broader participation in the economy — all of which help sustain and accelerate economic expansion.
