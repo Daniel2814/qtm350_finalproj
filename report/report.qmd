@@ -14,7 +14,9 @@ format: html
 
 This data is from the [World Bank's World Development Indicators](https://databank.worldbank.org/source/world-development-indicators). We will be utilizing a variety of economic development indicators to conduct this analysis. Our main indicators are `GDP per capita`, `employment to population ratio`, `GDP growth`, and `Davis's Indicator`:
 
-* **`GDP per capita`**
+* **`GDP per capita`** represented by the indicator NY.GDP.PCAP.KD, measures a country's economic output divided by its population, adjusted for inflation using constant 2015 US dollars. It reflects the average income or productivity per person and is commonly used as a proxy for a country’s standard of living and overall economic development. This data was obtained from the World Bank and spans from 1960 to 2023 for most countries. We supplemented the GDP data with country-level metadata including country codes and regions, which allowed for comparative and regional analyses across global economies.
+
+The dataset includes annual GDP per capita values for a wide range of countries, enabling longitudinal comparisons and trend analysis. The use of constant dollars helps control for inflation and facilitates meaningful comparisons over time. We focused on three countries—the United States (USA), China (CHN), and India (IND)—to examine contrasting economic trajectories, and we also included clustering and forecasting techniques to further explore global patterns and project future developments.
 
 * **`employment to population ratio`** is a variable that measures the proportion of a country’s working-age population that is currently employed. It reflects the share of people aged 15 and older who are participating in the labor market by holding a job. A higher employment-to-population ratio indicates that a larger percentage of the population is contributing to economic production, while a lower ratio suggests that many individuals are either unemployed, not actively seeking work, or otherwise outside the labor force. This metric is critical for understanding the relationship between labor markets and economic development. This variable is named `L.EMP.TOTL.SP.ZS.` and can be found [here](https://data.worldbank.org/indicator/SL.EMP.TOTL.SP.ZS.). For analysis, we also utilized country metadata that contained information on `region`.  
 
@@ -26,6 +28,16 @@ In the context of economic development, the employment-to-population ratio serve
 ## Data Analysis
 
 ### GDP per Capita
+
+The time series analysis of GDP per capita reveals significant differences in the economic development trajectories of the USA, China, and India. The USA shows a consistent upward trend over the past six decades, with only minor dips during economic recessions. Its GDP per capita remains among the highest globally, highlighting its established infrastructure, productivity, and high standard of living.
+
+In contrast, China’s GDP per capita remained relatively flat until the 1990s, after which it began to rise exponentially. This reflects the country’s rapid industrialization, export-driven growth, and policy reforms that integrated it into the global economy. India’s growth has also accelerated in recent decades, though at a slower pace than China’s. The data shows a steady increase from the early 2000s onward, indicative of ongoing development, expansion of services, and infrastructure investment.
+
+To explore future trends, we applied a time series forecasting model to project the USA’s GDP per capita for upcoming years. While the model suggests continued growth, this projection is subject to uncertainty due to potential global economic fluctuations.
+
+We also conducted a PCA (Principal Component Analysis) and KMeans clustering on GDP per capita data from 2013 to 2023 to identify global development patterns. This dimensionality reduction technique allowed us to visualize economic similarity between countries, revealing three main clusters: high-income economies, emerging markets, and lower-income nations. The clustering results emphasize persistent global inequality in economic output per person, while also identifying convergence among some developing countries.
+
+Together, these analyses offer a multifaceted view of how economies have evolved, diverged, and converged in terms of per capita income, and provide a framework for understanding global economic dynamics and potential future trends.
 
 ### Employment to Population Ratio
 
