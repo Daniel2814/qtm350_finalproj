@@ -8,6 +8,11 @@ format: html
 
 ## Introduction
 
+This project analyzes global economic development using data from the World Bank's World Development Indicators, focusing on three key measures: GDP per capita, employment-to-population ratio, and GDP growth, along with a composite metric called Davis's Indicator.
+
+Each indicator highlights a different aspect of development—income levels, labor market participation, and economic growth—offering a comprehensive view of how countries evolve over time. We use case studies of the United States, China, and India to illustrate contrasting growth paths, and apply techniques such as Principal Component Analysis (PCA), clustering, forecasting, and SQL-based data cleaning to uncover broader patterns and trends.
+
+Overall, this analysis provides insights into global disparities, regional dynamics, and the challenges and opportunities facing economies worldwide.
 
 
 ## Data Description
