@@ -793,13 +793,13 @@ import pandas as pd
 
 # Read data for exports, GDP, and employment
 data_EXP = pd.read_csv(
-    "../data/API_NE.EXP.GNFS.ZS_DS2_en_csv_v2_19646/API_NE.EXP.GNFS.ZS_DS2_en_csv_v2_19646.csv"
+    "../data/API_NE.EXP.GNFS.ZS_DS2_en_csv_v2_19646.csv"
 )
 data_GDP = pd.read_csv(
     "../data/API_NY.GDP.PCAP.KD_DS2_en_csv_v2_19405.csv", 
     skiprows=4
 )
-data_GDP_per_Cap = pd.read_csv(
+data_GDP_per_cap = pd.read_csv(
     "../data/API_NY.GDP.PCAP.KD_DS2_en_csv_v2_19405.csv", 
     skiprows=4
 )
@@ -841,7 +841,7 @@ print(top5_avg[['Country Name', 'Indicator Name', 'Average_Rank']])
 These 5 highest countries are China, Viet Nam, Myanmar, Kosovo and Lao PDR. Let us put htem up on a graph to show their relationship over time
 
 ```{python}
-#| label: Change in GDP
+#| label: gdp_change
 #| echo: false
 #| message: false
 #| warning: false
@@ -878,7 +878,7 @@ plt.grid(True)
 plt.tight_layout()
 
 # Show the plot
-plt.savefig('ChangeGDPTop5.png')
+plt.savefig('../figures/ChangeGDPTop5.png')
 display(Image(filename="../figures/ChangeGDPTop5.png"))
 ```
 
@@ -887,7 +887,7 @@ Economists state that a health gdp growth rate is 2% we see that on average, our
 Let us see if we can find any meaningful connections between these coutnries when looking at percent of Export and Imports as a portion of GDP
 
 ```{python}
-#| label: Change in Exports and Imports
+#| label: export_import_change
 #| echo: false
 #| message: false
 #| warning: false
@@ -918,9 +918,9 @@ plt.grid(True)
 plt.tight_layout()
 
 # Show the plot
-plt.savefig('ChangeEXP(Top5).png')
+plt.savefig('../figures/ChangeEXP_Top5.png')
 
-display(Image(filename="../figures/ChangeEXP(Top5).png"))
+display(Image(filename="../figures/ChangeEXP_Top5.png"))
 ```
 
 When looking at the percentage of GDP made up by exports and imports, we see a clear difference between China, Vietnam, Myanmar, Kosovo, and Lao PDR. This variation highlights how trade can be a powerful tool for economic growth. By expanding exports, countries can generate more income, create jobs, and bring in foreign currency, which can be reinvested into infrastructure, education, and technology. Similarly, imports allow countries to access goods, services, and technology that they do not produce themselves, helping to improve productivity and competitiveness.
@@ -930,7 +930,7 @@ In short, we see that our countries have successfully used exports and imports t
 
 Speaking on GDP growth, let us look at and compare the nominal GDP growth for each of the countries, and see if there are any meaningful relationships there.
 ```{python}
-#| label: Change in GDP nominally
+#| label: change_in_gdp_nominally
 #| echo: false
 #| message: false
 #| warning: false
@@ -961,8 +961,8 @@ plt.grid(True)
 plt.tight_layout()
 
 # Show the plot
-plt.savefig('GDPPerCapNom(Top5).png')
-display(Image(filename="../figures/GDPPerCapNom(Top5).png"))
+plt.savefig('../figures/GDPPerCapNom_Top5.png')
+display(Image(filename="../figures/GDPPerCapNom_Top5.png"))
 ```
 
 The graph presented examines nominal GDP per capita over time to assess the economic growth trajectories of our top five countries. By focusing on nominal GDP per capita, the graph aims to provide a clearer understanding of each country’s initial economic position and how it evolves over time. Upon review, we observe that there is little correlation between the starting GDP per capita of the countries, as they begin at different levels yet still experience significant economic growth. While the goal was to explore the influence of initial economic conditions on long-term growth patterns, the results do not strongly support this hypothesis. Instead, it becomes apparent that the varying starting points in capital across the countries did not seem to hinder their ability to achieve high rates of growth.
@@ -970,7 +970,7 @@ The graph presented examines nominal GDP per capita over time to assess the econ
 
 Let us now go onto to look at the relationship between employment percentages
 ```{python}
-#| label: Change in GDP
+#| label: gdp_change_2
 #| echo: false
 #| message: false
 #| warning: false
@@ -1000,8 +1000,8 @@ plt.grid(True)
 plt.tight_layout()
 
 # Show the plot
-plt.savefig('EmployRatio(Top5).png')
-display(Image(filename="../figures/EmployRatio(Top5).png"))
+plt.savefig('../figures/EmployRatio_Top5.png')
+display(Image(filename="../figures/EmployRatio_Top5.png"))
 ```
 
 Across China, Vietnam, Myanmar, Kosovo, and Lao PDR, employment ratios show some common patterns alongside important differences. In general, countries that have embraced export-led growth strategies, industrialization, and international trade tend to have higher employment ratios and have created more formal job opportunities. Meanwhile, countries that remain heavily dependent on agriculture or have less diversified economies often experience lower employment ratios, with a larger share of workers engaged in informal or subsistence activities.

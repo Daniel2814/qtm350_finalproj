@@ -62,7 +62,7 @@
         "\n",
         "### Employment to Population Ratio\n"
       ],
-      "id": "60d2cf9a"
+      "id": "3be90207"
     },
     {
       "cell_type": "code",
@@ -310,7 +310,7 @@
         "\n",
         "Here are the results from the GDP Growth analysis. \n"
       ],
-      "id": "d3b796df"
+      "id": "0d37b8dc"
     },
     {
       "cell_type": "code",
@@ -454,7 +454,7 @@
       "source": [
         "The table below summarizes GDP growth statistics across decades.\n"
       ],
-      "id": "2a0405e7"
+      "id": "1dc4dccf"
     },
     {
       "cell_type": "code",
@@ -498,7 +498,7 @@
         "\n",
         "The table below summarizes GDP growth by world region.\n"
       ],
-      "id": "c5f9b820"
+      "id": "220d744c"
     },
     {
       "cell_type": "code",
@@ -542,7 +542,7 @@
         "\n",
         "The table below summarizes GDP growth by income group. \n"
       ],
-      "id": "3e5b2aca"
+      "id": "ba0a5a73"
     },
     {
       "cell_type": "code",
@@ -585,7 +585,7 @@
       "source": [
         "Among income groups, Upper Middle Income countries experienced the highest average growth (~4.04%) from 1960 to 2023, while High Income countries had lower average growth (~3.26%) during this time period. The Upper Middle Income country growth reflects the rapid industrialization and modernization of economies such as China, Malaysia, and Turkey from 1960 to 2023. The more stable, lower growth experienced by High Income countries reinforces the idea that as economies mature, growth rates naturally slow. This comparison shows the importance of the development stage in driving economic performance across countries.\n"
       ],
-      "id": "1106e40a"
+      "id": "ca8495d3"
     },
     {
       "cell_type": "code",
@@ -610,7 +610,7 @@
       "source": [
         "This first figure displays average GDP growth over time by region.\n"
       ],
-      "id": "233cd4cc"
+      "id": "27e7d73c"
     },
     {
       "cell_type": "code",
@@ -671,7 +671,7 @@
         "\n",
         "The second figure presents a smoothed trend line of GDP growth over time by world region.\n"
       ],
-      "id": "914cf200"
+      "id": "d92da54d"
     },
     {
       "cell_type": "code",
@@ -750,7 +750,7 @@
         "\n",
         "The below figure displays the average GDP growth over time by country income level.\n"
       ],
-      "id": "609a2a08"
+      "id": "715be696"
     },
     {
       "cell_type": "code",
@@ -830,7 +830,7 @@
         "\n",
         "This last figure presents a smoothed trend line of GDP growth over time by country income level.\n"
       ],
-      "id": "6633680a"
+      "id": "26db7bd6"
     },
     {
       "cell_type": "code",
@@ -921,7 +921,7 @@
         "### Finding what makes the best economies work? Do any of our variables help estimate this\n",
         "In addition to these variables, we aim to identify factors that contribute to sustained economic growth. We will measure economic growth by examining the percentage increase in GDP over time and focus our analysis on the top five countries with the highest growth rates.\n"
       ],
-      "id": "2f470ba7"
+      "id": "37fb27e3"
     },
     {
       "cell_type": "code",
@@ -975,7 +975,7 @@
         "\n",
         "print(top5_avg[['Country Name', 'Indicator Name', 'Average_Rank']])"
       ],
-      "id": "1a09c342",
+      "id": "e263c5ef",
       "execution_count": null,
       "outputs": []
     },
@@ -985,7 +985,7 @@
       "source": [
         "These 5 highest countries are China, Viet Nam, Myanmar, Kosovo and Lao PDR. Let us put htem up on a graph to show their relationship over time\n"
       ],
-      "id": "ae24d18c"
+      "id": "38778b6c"
     },
     {
       "cell_type": "code",
@@ -1026,7 +1026,7 @@
         "# Show the plot\n",
         "plt.savefig('ChangeGDPTop5.png')"
       ],
-      "id": "404dd653",
+      "id": "17cde1c8",
       "execution_count": null,
       "outputs": []
     },
@@ -1038,7 +1038,7 @@
         "\n",
         "Let us see if we can find any meaningful connections between these coutnries when looking at percent of Export and Imports as a portion of GDP\n"
       ],
-      "id": "51118829"
+      "id": "f21e1877"
     },
     {
       "cell_type": "code",
@@ -1073,7 +1073,7 @@
         "# Show the plot\n",
         "plt.savefig('ChangeEXP(Top5).png')\n"
       ],
-      "id": "dc824249",
+      "id": "dbf314a6",
       "execution_count": null,
       "outputs": []
     },
@@ -1088,7 +1088,7 @@
         "\n",
         "Speaking on GDP growth, let us look at and compare the nominal GDP growth for each of the countries, and see if there are any meaningful relationships there."
       ],
-      "id": "088c698e"
+      "id": "3fb3730e"
     },
     {
       "cell_type": "code",
@@ -1123,7 +1123,7 @@
         "# Show the plot\n",
         "plt.savefig('GDPPerCapNom(Top5).png')"
       ],
-      "id": "667afed8",
+      "id": "4675d697",
       "execution_count": null,
       "outputs": []
     },
@@ -1136,7 +1136,7 @@
         "\n",
         "Let us now go onto to look at the relationship between employment percentages"
       ],
-      "id": "1695efb9"
+      "id": "a208fe6a"
     },
     {
       "cell_type": "code",
@@ -1170,7 +1170,7 @@
         "# Show the plot\n",
         "plt.savefig('EmployRatio(Top5).png')"
       ],
-      "id": "13366d20",
+      "id": "43733305",
       "execution_count": null,
       "outputs": []
     },
@@ -1185,7 +1185,7 @@
         "\n",
         "## Conclusion\n"
       ],
-      "id": "30959769"
+      "id": "f096fca0"
     }
   ],
   "metadata": {

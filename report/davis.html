@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Davis Boor (2556176), Emma Jinright (2488724), Daniel Nickas (2549711), and Nick Richards (2495699)">
+<meta name="dcterms.date" content="2025-04-28">
+
+<title>Economic Development Analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="davis_files/libs/clipboard/clipboard.min.js"></script>
+<script src="davis_files/libs/quarto-html/quarto.js"></script>
+<script src="davis_files/libs/quarto-html/popper.min.js"></script>
+<script src="davis_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="davis_files/libs/quarto-html/anchor.min.js"></script>
+<link href="davis_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="davis_files/libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="davis_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="davis_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="davis_files/libs/bootstrap/bootstrap-d47bb45708ccdde6d9157f7b7c46691e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Economic Development Analysis</h1>
+<p class="subtitle lead">QTM350 Final Project</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Davis Boor (2556176), Emma Jinright (2488724), Daniel Nickas (2549711), and Nick Richards (2495699) </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">April 28, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+</section>
+<section id="data-description" class="level2">
+<h2 class="anchored" data-anchor-id="data-description">Data Description</h2>
+<p>This data is from the <a href="https://databank.worldbank.org/source/world-development-indicators">World Bank’s World Development Indicators</a>. We will be utilizing a variety of economic development indicators to conduct this analysis. Our main indicators are <code>GDP per capita</code>, <code>employment to population ratio</code>, <code>GDP growth</code>, and <code>Davis's Indicator</code>:</p>
+<ul>
+<li><strong><code>GDP per capita</code></strong> represented by the indicator NY.GDP.PCAP.KD, measures a country’s economic output divided by its population, adjusted for inflation using constant 2015 US dollars. It reflects the average income or productivity per person and is commonly used as a proxy for a country’s standard of living and overall economic development. This data was obtained from the World Bank and spans from 1960 to 2023 for most countries. We supplemented the GDP data with country-level metadata including country codes and regions, which allowed for comparative and regional analyses across global economies.</li>
+</ul>
+<p>The dataset includes annual GDP per capita values for a wide range of countries, enabling longitudinal comparisons and trend analysis. The use of constant dollars helps control for inflation and facilitates meaningful comparisons over time. We focused on three countries—the United States (USA), China (CHN), and India (IND)—to examine contrasting economic trajectories, and we also included clustering and forecasting techniques to further explore global patterns and project future developments.</p>
+<ul>
+<li><strong><code>employment to population ratio</code></strong> is a variable that measures the proportion of a country’s working-age population that is currently employed. It reflects the share of people aged 15 and older who are participating in the labor market by holding a job. A higher employment-to-population ratio indicates that a larger percentage of the population is contributing to economic production, while a lower ratio suggests that many individuals are either unemployed, not actively seeking work, or otherwise outside the labor force. This metric is critical for understanding the relationship between labor markets and economic development. This variable is named <code>L.EMP.TOTL.SP.ZS.</code> and can be found <a href="https://data.worldbank.org/indicator/SL.EMP.TOTL.SP.ZS.">here</a>. For analysis, we also utilized country metadata that contained information on <code>region</code>.</li>
+</ul>
+<p>In the context of economic development, the employment-to-population ratio serves as an important indicator of how well an economy is utilizing its human resources. A rising ratio typically suggests positive development trends, such as increasing job creation, greater access to employment opportunities, and improved living standards. Economies with consistently high employment-to-population ratios often experience broader economic growth, higher productivity, and reduced poverty rates. Conversely, a low ratio can signal structural problems like weak labor market demand, gender disparities in employment, or a mismatch between skills and job opportunities. Natural resource dependence can also influence this ratio: in countries heavily reliant on oil or mining, wealth may be generated without widespread employment, leading to lower overall participation rates despite high national incomes. Thus, analyzing changes in the employment-to-population ratio over time offers key insights into the inclusiveness and sustainability of economic growth.</p>
+<ul>
+<li><strong><code>GDP growth</code></strong> is a variable that captures the annual percent growth of GDP for countries from 1960 to 2023. More specifically, in the World Development Indicators, this variable is named <code>NY.GDP.MKTP.KD.ZG.</code> and can be found <a href="https://data.worldbank.org/indicator/NY.GDP.MKTP.KD.ZG">here</a>. For analysis, we also utilized country metadata that contained information on <code>region</code> and <code>income level</code>.</li>
+</ul>
+</section>
+<section id="data-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="data-analysis">Data Analysis</h2>
+<section id="gdp-per-capita" class="level3">
+<h3 class="anchored" data-anchor-id="gdp-per-capita">GDP per Capita</h3>
+<p>The time series analysis of GDP per capita reveals significant differences in the economic development trajectories of the USA, China, and India. The USA shows a consistent upward trend over the past six decades, with only minor dips during economic recessions. Its GDP per capita remains among the highest globally, highlighting its established infrastructure, productivity, and high standard of living.</p>
+<p>In contrast, China’s GDP per capita remained relatively flat until the 1990s, after which it began to rise exponentially. This reflects the country’s rapid industrialization, export-driven growth, and policy reforms that integrated it into the global economy. India’s growth has also accelerated in recent decades, though at a slower pace than China’s. The data shows a steady increase from the early 2000s onward, indicative of ongoing development, expansion of services, and infrastructure investment.</p>
+<p>To explore future trends, we applied a time series forecasting model to project the USA’s GDP per capita for upcoming years. While the model suggests continued growth, this projection is subject to uncertainty due to potential global economic fluctuations.</p>
+<p>We also conducted a PCA (Principal Component Analysis) and KMeans clustering on GDP per capita data from 2013 to 2023 to identify global development patterns. This dimensionality reduction technique allowed us to visualize economic similarity between countries, revealing three main clusters: high-income economies, emerging markets, and lower-income nations. The clustering results emphasize persistent global inequality in economic output per person, while also identifying convergence among some developing countries.</p>
+<p>Together, these analyses offer a multifaceted view of how economies have evolved, diverged, and converged in terms of per capita income, and provide a framework for understanding global economic dynamics and potential future trends.</p>
+</section>
+<section id="employment-to-population-ratio" class="level3">
+<h3 class="anchored" data-anchor-id="employment-to-population-ratio">Employment to Population Ratio</h3>
+<p>The Employment-to-Population Ratio trends from 1990-2024 (Many too many data points were excluded before 1990, so it did not necessarily make sense to show N/A values) show clear differences across global regions, revealing important insights about labor market dynamics and economic structures. North America and East Asia &amp; Pacific consistently maintain the highest employment-to-population ratios, while the Middle East &amp; North Africa region shows persistently lower levels. A sharp global decline around 2020 reflects the impact of the COVID-19 pandemic, after which most regions partially recovered, although some — particularly Latin America and Europe — continued to lag. Notably, Sub-Saharan Africa exhibits a relatively resilient employment pattern despite ongoing global shocks, likely due to its labor-intensive informal economy. Overall, the World Average line demonstrates a slow, steady decline over time, highlighting a global trend toward slightly lower labor market participation.</p>
+<p>Natural resources play a critical role in explaining these regional differences. Resource-rich economies, particularly those dependent on oil exports such as those in the Middle East and North Africa, often exhibit lower employment-to-population ratios. This reflects the “resource curse,” where resource wealth does not translate into widespread job creation due to capital-intensive industries dominating national output. In contrast, regions like Sub-Saharan Africa, heavily reliant on agriculture and mining, maintain higher employment ratios despite lower GDP per capita, driven by the need for broad participation in informal sectors. The relative resilience of East Asia and North America further suggests that diversified economies with strong service and industrial sectors are better positioned to maintain stable employment levels, even during global disruptions. These findings are consistent with research from the World Bank (2021), the International Labour Organization (2020), and Sachs and Warner (1995), which collectively emphasize the importance of economic diversification in sustaining employment growth.</p>
+</section>
+<section id="gdp-growth" class="level3">
+<h3 class="anchored" data-anchor-id="gdp-growth">GDP Growth</h3>
+<p>The next indicator that we are interested in analyzing is GDP growth. In order to analyze this variable, we first did data cleaning using SQLite. We removed unneeded variables, cleaned variable names, and joined our GDP growth indicator with the country metadata. Then, we removed entries where there was no region. This is because the <code>country_name</code> column also contained regions, income levels, and world averages and to avoid redundancy with our joined data, we removed it. Lastly, we pivotted the table into a long format where instead of each year having it’s own column, there is a year column and then a GDP growth column to capture the percentage of GDP growth for every year. After cleaning was completed, some simple descriptive statistics tables were created using SQLite which can be seen below. After that, python was used to create visualizations to support further analysis. The main questions we were trying to answer through the analysis of GDP growth was how GDP growth had changed over time between different regions and income levels compared to the world average. The code used to complete this analysis is located in the scripts file of this gtihub repository <a href="https://github.com/Daniel2814/qtm350_finalproj/tree/d5262c78c7946d1de2ea87f036598ffe62cc3b17/scripts">here</a>.</p>
+</section>
+<section id="gdp-per-capita-1" class="level3">
+<h3 class="anchored" data-anchor-id="gdp-per-capita-1">GDP per Capita</h3>
+</section>
+<section id="employment-to-population-ratio-1" class="level3">
+<h3 class="anchored" data-anchor-id="employment-to-population-ratio-1">Employment to Population Ratio</h3>
+</section>
+<section id="gdp-growth-1" class="level3">
+<h3 class="anchored" data-anchor-id="gdp-growth-1">GDP Growth</h3>
+<p>Here are the results from the GDP Growth analysis.</p>
+<p>The table below summarizes GDP growth statistics across decades.</p>
+<div id="cell-table-decade" class="cell" data-message="false" data-execution_count="4">
+<div id="table-decade" class="cell-output cell-output-display" data-execution_count="36">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">decade</th>
+<th data-quarto-table-cell-role="th">count_growth</th>
+<th data-quarto-table-cell-role="th">min_growth</th>
+<th data-quarto-table-cell-role="th">avg_growth_decade</th>
+<th data-quarto-table-cell-role="th">max_growth</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1960s</td>
+<td>1026</td>
+<td>-27.270000</td>
+<td>5.461588</td>
+<td>81.887797</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>1970s</td>
+<td>1423</td>
+<td>-46.433035</td>
+<td>4.997033</td>
+<td>76.620155</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>1980s</td>
+<td>1663</td>
+<td>-42.451118</td>
+<td>2.991529</td>
+<td>34.600001</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>1990s</td>
+<td>1942</td>
+<td>-64.047107</td>
+<td>2.897831</td>
+<td>149.972963</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>2000s</td>
+<td>2033</td>
+<td>-36.656780</td>
+<td>4.039469</td>
+<td>63.379875</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>2010s</td>
+<td>2093</td>
+<td>-50.338515</td>
+<td>3.183693</td>
+<td>86.826748</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>2020s</td>
+<td>819</td>
+<td>-54.336155</td>
+<td>2.009832</td>
+<td>75.061377</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>The 1960s exhibited the highest average GDP growth (~5.46%), while 2020 to present had the lowest average (~2.00%) across the world. The 1990s showed notable volatility with the widest range in growth rates (-64% to +150%). This pattern highlights a long-term slowdown of global economic expansion over the past six decades.</p>
+<p>The table below summarizes GDP growth by world region.</p>
+<div id="cell-table-region" class="cell" data-message="false" data-execution_count="5">
+<div id="table-region" class="cell-output cell-output-display" data-execution_count="37">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">region</th>
+<th data-quarto-table-cell-role="th">n_countries</th>
+<th data-quarto-table-cell-role="th">n_obs</th>
+<th data-quarto-table-cell-role="th">avg_growth</th>
+<th data-quarto-table-cell-role="th">min_growth</th>
+<th data-quarto-table-cell-role="th">max_growth</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>East Asia &amp; Pacific</td>
+<td>36</td>
+<td>1828</td>
+<td>3.788046</td>
+<td>-54.336155</td>
+<td>75.061377</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Europe &amp; Central Asia</td>
+<td>57</td>
+<td>2558</td>
+<td>2.876755</td>
+<td>-44.899775</td>
+<td>54.199300</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Latin America &amp; Caribbean</td>
+<td>41</td>
+<td>2157</td>
+<td>3.219749</td>
+<td>-26.782933</td>
+<td>63.334587</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Middle East &amp; North Africa</td>
+<td>21</td>
+<td>1098</td>
+<td>4.927993</td>
+<td>-64.047107</td>
+<td>86.826748</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>North America</td>
+<td>3</td>
+<td>189</td>
+<td>2.818637</td>
+<td>-6.842870</td>
+<td>14.363636</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>South Asia</td>
+<td>8</td>
+<td>442</td>
+<td>5.054728</td>
+<td>-32.908829</td>
+<td>37.507870</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>Sub-Saharan Africa</td>
+<td>48</td>
+<td>2727</td>
+<td>3.825631</td>
+<td>-51.030865</td>
+<td>149.972963</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>World</td>
+<td>1</td>
+<td>63</td>
+<td>3.783984</td>
+<td>-5.108132</td>
+<td>6.392297</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>When broken down by region, the Middle East and North Africa had the highest average GDP growth (~4.93%) compared to other world regions from 1960 to 2023. This is likely due to oil wealth and energy exports in this region. North America had the slowest average growth (~2.82%) during this time period. This is consistent with trends observed in developed economies with mature markets and slower population growth. The variabiltiy seen across regions suggest that resource wealth, political stability, and demographic factors strongly influence long-term GDP trajectories.</p>
+<p>The table below summarizes GDP growth by income group.</p>
+<div id="cell-table-income" class="cell" data-message="false" data-execution_count="6">
+<div id="table-income" class="cell-output cell-output-display" data-execution_count="38">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">income_group</th>
+<th data-quarto-table-cell-role="th">n_countries</th>
+<th data-quarto-table-cell-role="th">n_obs</th>
+<th data-quarto-table-cell-role="th">min_growth</th>
+<th data-quarto-table-cell-role="th">avg_growth</th>
+<th data-quarto-table-cell-role="th">max_growth</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Upper middle income</td>
+<td>54</td>
+<td>2813</td>
+<td>-64.047107</td>
+<td>4.040969</td>
+<td>149.972963</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Lower middle income</td>
+<td>51</td>
+<td>2731</td>
+<td>-46.433035</td>
+<td>3.876785</td>
+<td>58.078096</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>World</td>
+<td>1</td>
+<td>63</td>
+<td>-5.108132</td>
+<td>3.783984</td>
+<td>6.392297</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Low income</td>
+<td>25</td>
+<td>1333</td>
+<td>-51.030865</td>
+<td>3.368783</td>
+<td>106.279814</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>High income</td>
+<td>83</td>
+<td>4068</td>
+<td>-54.336155</td>
+<td>3.255113</td>
+<td>82.809329</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Among income groups, Upper Middle Income countries experienced the highest average growth (~4.04%) from 1960 to 2023, while High Income countries had lower average growth (~3.26%) during this time period. The Upper Middle Income country growth reflects the rapid industrialization and modernization of economies such as China, Malaysia, and Turkey from 1960 to 2023. The more stable, lower growth experienced by High Income countries reinforces the idea that as economies mature, growth rates naturally slow. This comparison shows the importance of the development stage in driving economic performance across countries.</p>
+<p>This first figure displays average GDP growth over time by region.</p>
+<div id="cell-fig-region" class="cell" data-fig.cap="This is a line plot showing GDP growth over time for different regions of the world" data-message="false" data-execution_count="8">
+<div class="cell-output cell-output-display">
+<div id="fig-region" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-region-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="davis_files/figure-html/fig-region-output-1.png" id="fig-region" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-region-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>While short-term fluctuations are common across the globe, a general decline in growth rates is observed post-1970s across most regions. It is clear on the figure that all world regions experienced high short-term volatility, especially Sub-Saharan Africa and South Asia, with many regions experiencing sharp dips around known global recessions (i.e.&nbsp;the early 1980s and late 2000s). The world average (thicker black line) remains relatively stable compared to the volatility shown in other regions, with spikes and dips corresponding to major global events. The world average also demonstrates how the global economy exhibits greater resilience and inertia compared to individual regions.</p>
+<p>The second figure presents a smoothed trend line of GDP growth over time by world region.</p>
+<div id="cell-fig-regionsmooth" class="cell" data-fig.cap="This is a line plot showing smoothed GDP growth over time for different regions of the world" data-message="false" data-execution_count="9">
+<div class="cell-output cell-output-display">
+<div id="fig-regionsmooth" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-regionsmooth-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="davis_files/figure-html/fig-regionsmooth-output-1.png" id="fig-regionsmooth" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-regionsmooth-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>This reveals a clearer long-term downward trend of GDP growth across all regions in the world. Notably, Sub-Saharan Africa, the Middle East and North Africa, and South Asia initially experienced relatively high growth, but later their growth rates converged downward with other regions. North America and Europe and Central Asia have shown the lowest growth decline trajectory so far. This is likely explained by structural factors, such as aging populations, slower technological diffusion, and diminishing returns to capital.</p>
+<p>The below figure displays the average GDP growth over time by country income level.</p>
+<div id="cell-fig-income" class="cell" data-fig.cap="This is a line plot showing GDP growth over time for countries of different income levels" data-message="false" data-execution_count="10">
+<div class="cell-output cell-output-display">
+<div id="fig-income" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-income-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="davis_files/figure-html/fig-income-output-1.png" id="fig-income" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-income-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>This income group graphs show that GDP growth trends differ substantially across income levels. High-income countries experienced relatively stable and moderate growth throughout the observed period, with smaller fluctuations even during major global events such as the 2008 financial crisis and the 2020 pandemic. In contrast, lower-middle-income and low-income countries exhibited much greater volatility, with sharp downturns during periods of global recession. Upper-middle-income countries generally achieved higher average growth rates, particularly during the 1990s and early 2000s, but their growth also became less consistent after 2008. These patterns suggest that lower-income countries are more vulnerable to external shocks, while high-income countries are more insulated due to stronger economic institutions and diversification.</p>
+<p>This last figure presents a smoothed trend line of GDP growth over time by country income level.</p>
+<div id="cell-fig-incomesmooth" class="cell" data-fig.cap="This is a line plot showing smoothed GDP growth over time for countries of different income levels" data-message="false" data-execution_count="11">
+<div class="cell-output cell-output-display">
+<div id="fig-incomesmooth" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-incomesmooth-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="davis_files/figure-html/fig-incomesmooth-output-1.png" id="fig-incomesmooth" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-incomesmooth-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The smoothed income group trends highlight longer-term structural shifts in global GDP growth patterns. Across all income groups, there is a visible gradual decline in average growth rates from the 1960s to the 2020s. Although upper-middle-income countries reached a peak of growth around the early 2000s, this momentum slowed considerably in the following decades. Low-income countries experienced the steepest long-term decline, pointing to persistent challenges such as political instability, lack of infrastructure, and dependency on a narrow range of industries. High-income countries maintained steadier growth but at increasingly lower rates over time, suggesting that mature economies are facing limits to expansion. Together, these smoothed trends imply that broader global factors, such as technological stagnation, demographic shifts, and environmental pressures, are influencing growth trajectories across all income levels, albeit unevenly.</p>
+</section>
+<section id="finding-what-makes-the-best-economies-work-do-any-of-our-variables-help-estimate-this" class="level3">
+<h3 class="anchored" data-anchor-id="finding-what-makes-the-best-economies-work-do-any-of-our-variables-help-estimate-this">Finding what makes the best economies work? Do any of our variables help estimate this</h3>
+<p>In addition to these variables, we aim to identify factors that contribute to sustained economic growth. We will measure economic growth by examining the percentage increase in GDP over time and focus our analysis on the top five countries with the highest growth rates.</p>
+<div id="36bddfd5" class="cell" data-message="false" data-execution_count="12">
+<div class="cell-output cell-output-stdout">
+<pre><code>    Country Name                      Indicator Name  Average_Rank
+40         China  GDP per capita (constant 2015 US$)     16.029412
+257     Viet Nam  GDP per capita (constant 2015 US$)     42.470588
+160      Myanmar  GDP per capita (constant 2015 US$)     44.588235
+261       Kosovo  GDP per capita (constant 2015 US$)     51.562500
+129      Lao PDR  GDP per capita (constant 2015 US$)     57.911765</code></pre>
+</div>
+</div>
+<p>These 5 highest countries are China, Viet Nam, Myanmar, Kosovo and Lao PDR. Let us put htem up on a graph to show their relationship over time</p>
+<div id="cell-gdp_change" class="cell" data-message="false" data-execution_count="13">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="davis_files/figure-html/gdp_change-output-1.png" id="gdp_change" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Economists state that a health gdp growth rate is 2% we see that on average, our top 5 countries are always above the average, excluding the huge drop during COVID.</p>
+<p>Let us see if we can find any meaningful connections between these coutnries when looking at percent of Export and Imports as a portion of GDP</p>
+<div id="cell-export_import_change" class="cell" data-message="false" data-execution_count="14">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="davis_files/figure-html/export_import_change-output-1.png" id="export_import_change" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>When looking at the percentage of GDP made up by exports and imports, we see a clear difference between China, Vietnam, Myanmar, Kosovo, and Lao PDR. This variation highlights how trade can be a powerful tool for economic growth. By expanding exports, countries can generate more income, create jobs, and bring in foreign currency, which can be reinvested into infrastructure, education, and technology. Similarly, imports allow countries to access goods, services, and technology that they do not produce themselves, helping to improve productivity and competitiveness. For example, Vietnam has aggressively expanded its export sector over the past three decades by integrating into global supply chains, especially in electronics, textiles, and manufacturing. This strategy has helped Vietnam achieve rapid economic growth, reduce poverty, and transition from a primarily agricultural economy to one focused on industry and services. In contrast, China used trade as a major driver of its economic rise by becoming the “world’s factory,” exporting a vast range of manufactured goods while simultaneously importing raw materials and high-tech equipment to fuel its industrial expansion. Even smaller economies like Kosovo have used trade to stimulate growth. By opening its markets and increasing exports, especially in sectors like metals, textiles, and services, Kosovo has worked to create more job opportunities and strengthen its economy, even though challenges remain. In short, we see that our countries have successfully used exports and imports to connect with the global economy which contributed to faster GDP growth.</p>
+<p>Speaking on GDP growth, let us look at and compare the nominal GDP growth for each of the countries, and see if there are any meaningful relationships there.</p>
+<div id="cell-change_in_gdp_nominally" class="cell" data-message="false" data-execution_count="15">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="davis_files/figure-html/change_in_gdp_nominally-output-1.png" id="change_in_gdp_nominally" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The graph presented examines nominal GDP per capita over time to assess the economic growth trajectories of our top five countries. By focusing on nominal GDP per capita, the graph aims to provide a clearer understanding of each country’s initial economic position and how it evolves over time. Upon review, we observe that there is little correlation between the starting GDP per capita of the countries, as they begin at different levels yet still experience significant economic growth. While the goal was to explore the influence of initial economic conditions on long-term growth patterns, the results do not strongly support this hypothesis. Instead, it becomes apparent that the varying starting points in capital across the countries did not seem to hinder their ability to achieve high rates of growth.</p>
+<p>Let us now go onto to look at the relationship between employment percentages</p>
+<div id="cell-gdp_change_2" class="cell" data-message="false" data-execution_count="16">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="davis_files/figure-html/gdp_change_2-output-1.png" id="gdp_change_2" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Across China, Vietnam, Myanmar, Kosovo, and Lao PDR, employment ratios show some common patterns alongside important differences. In general, countries that have embraced export-led growth strategies, industrialization, and international trade tend to have higher employment ratios and have created more formal job opportunities. Meanwhile, countries that remain heavily dependent on agriculture or have less diversified economies often experience lower employment ratios, with a larger share of workers engaged in informal or subsistence activities. Focusing specifically on Vietnam and Lao PDR highlights these trends clearly. Vietnam has maintained a high employment ratio, thanks to its rapid industrialization and integration into global markets. Since the 1990s, Vietnam’s shift from a primarily agricultural economy to a manufacturing and services-driven one has created millions of jobs in factories, technology firms, and export-oriented industries. Trade agreements with major partners like the United States, the European Union, and neighboring Asian countries have further boosted employment by attracting foreign investment and expanding Vietnam’s access to global markets. In contrast, Lao PDR has a much lower employment ratio. Although Laos has also experienced economic growth, much of its labor force remains tied to agriculture, often in informal or subsistence roles. Industrial and manufacturing sectors are smaller, and trade is less diversified, limiting the number of formal job opportunities available. While sectors like hydropower and mining have driven some growth, they tend to be capital-intensive rather than labor-intensive, meaning they generate fewer jobs relative to their economic output. Despite these differences, all five countries have maintained relatively high GDP growth rates in recent years. Strong employment growth, especially in Vietnam, has played a key role by boosting domestic demand, increasing household incomes, and enabling broader participation in the economy — all of which help sustain and accelerate economic expansion.</p>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
