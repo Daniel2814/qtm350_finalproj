@@ -82,6 +82,9 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>This project analyzes global economic development using data from the World Bank’s World Development Indicators, focusing on three key measures: GDP per capita, employment-to-population ratio, and GDP growth, along with a composite metric that uses the aforementioned indicators to find relationships between countries with high average growth rates</p>
+<p>Each indicator highlights a different aspect of development—income levels, labor market participation, and economic growth—offering a comprehensive view of how countries evolve over time. We use case studies of the United States, China, and India to illustrate contrasting growth paths, and apply techniques such as Principal Component Analysis (PCA), clustering, forecasting, and SQL-based data cleaning to uncover broader patterns and trends.</p>
+<p>Overall, this analysis provides insights into global disparities, regional dynamics, and the challenges and opportunities facing economies worldwide.</p>
 </section>
 <section id="data-description" class="level2">
 <h2 class="anchored" data-anchor-id="data-description">Data Description</h2>
@@ -134,7 +137,7 @@ ul.task-list li input[type="checkbox"] {
 <p>Here are the results from the GDP Growth analysis.</p>
 <p>The table below summarizes GDP growth statistics across decades.</p>
 <div id="cell-table-decade" class="cell" data-message="false" data-execution_count="4">
-<div id="table-decade" class="cell-output cell-output-display" data-execution_count="61">
+<div id="table-decade" class="cell-output cell-output-display" data-execution_count="36">
 <div>
 
 
@@ -215,7 +218,7 @@ ul.task-list li input[type="checkbox"] {
 <p>The 1960s exhibited the highest average GDP growth (~5.46%), while 2020 to present had the lowest average (~2.00%) across the world. The 1990s showed notable volatility with the widest range in growth rates (-64% to +150%). This pattern highlights a long-term slowdown of global economic expansion over the past six decades.</p>
 <p>The table below summarizes GDP growth by world region.</p>
 <div id="cell-table-region" class="cell" data-message="false" data-execution_count="5">
-<div id="table-region" class="cell-output cell-output-display" data-execution_count="62">
+<div id="table-region" class="cell-output cell-output-display" data-execution_count="37">
 <div>
 
 
@@ -313,7 +316,7 @@ ul.task-list li input[type="checkbox"] {
 <p>When broken down by region, the Middle East and North Africa had the highest average GDP growth (~4.93%) compared to other world regions from 1960 to 2023. This is likely due to oil wealth and energy exports in this region. North America had the slowest average growth (~2.82%) during this time period. This is consistent with trends observed in developed economies with mature markets and slower population growth. The variabiltiy seen across regions suggest that resource wealth, political stability, and demographic factors strongly influence long-term GDP trajectories.</p>
 <p>The table below summarizes GDP growth by income group.</p>
 <div id="cell-table-income" class="cell" data-message="false" data-execution_count="6">
-<div id="table-income" class="cell-output cell-output-display" data-execution_count="63">
+<div id="table-income" class="cell-output cell-output-display" data-execution_count="38">
 <div>
 
 
@@ -450,7 +453,7 @@ Figure&nbsp;4
 <section id="identifying-drivers-of-sustained-economic-growth-an-analysis-of-high-performing-economies" class="level3">
 <h3 class="anchored" data-anchor-id="identifying-drivers-of-sustained-economic-growth-an-analysis-of-high-performing-economies">Identifying Drivers of Sustained Economic Growth: An Analysis of High-Performing Economies</h3>
 <p>In addition to looking at global GDP growth, we aim to identify factors that contribute to the highest sustained economic growth. We will measure economic growth by examining the percentage increase in GDP over time and focus our analysis on the top five countries with the highest growth rates.</p>
-<div id="190cc800" class="cell" data-message="false" data-execution_count="12">
+<div id="fb8ad681" class="cell" data-message="false" data-execution_count="12">
 <div class="cell-output cell-output-stdout">
 <pre><code>    Country Name  Average_Rank
 40         China     16.029412
@@ -461,7 +464,7 @@ Figure&nbsp;4
 </div>
 </div>
 <p>These 5 highest countries are China, Viet Nam, Myanmar, Kosovo and Lao PDR. Let us put htem up on a graph to show their relationship over time</p>
-<div id="cell-fig-ChangeGDPTop5" class="cell" data-message="false" data-execution_count="13">
+<div id="cell-fig-ChangeGDPTop5" class="cell" data-fig.cap="This is a line graph showing GDP growth over time for the 5 countries with the highest average growth rate" data-message="false" data-execution_count="13">
 <div class="cell-output cell-output-display">
 <div id="fig-changegdptop5" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -477,30 +480,59 @@ Figure&nbsp;5
 </div>
 <p>Economists state that a health gdp growth rate is 2% we see that on average, our top 5 countries are always above the average, excluding the huge drop during COVID.</p>
 <p>Let us see if we can find any meaningful connections between these coutnries when looking at percent of Export and Imports as a portion of GDP</p>
-<p>::: {#cell-fig-ChangeEXP(Top5) .cell message=‘false’ execution_count=14}</p>
+<div id="cell-fig-ChangeEXPTop5" class="cell" data-fig.cap="This is a line graph showing exports and imports as a percent of GDP  over time for our Top 5 countries" data-message="false" data-execution_count="14">
 <div class="cell-output cell-output-display">
-<p>![](report_files/figure-html/fig-changeexp(top5-output-1.png){#fig-changeexp(top5}</p>
+<div id="fig-changeexptop5" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-changeexptop5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="report_files/figure-html/fig-changeexptop5-output-1.png" id="fig-changeexptop5" class="img-fluid figure-img">
 </div>
-<p>:::</p>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-changeexptop5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
 <p>When looking at the percentage of GDP made up by exports and imports, we see a clear difference between China, Vietnam, Myanmar, Kosovo, and Lao PDR. This variation highlights how trade can be a powerful tool for economic growth. By expanding exports, countries can generate more income, create jobs, and bring in foreign currency, which can be reinvested into infrastructure, education, and technology. Similarly, imports allow countries to access goods, services, and technology that they do not produce themselves, helping to improve productivity and competitiveness. For example, Vietnam has aggressively expanded its export sector over the past three decades by integrating into global supply chains, especially in electronics, textiles, and manufacturing. This strategy has helped Vietnam achieve rapid economic growth, reduce poverty, and transition from a primarily agricultural economy to one focused on industry and services. In contrast, China used trade as a major driver of its economic rise by becoming the “world’s factory,” exporting a vast range of manufactured goods while simultaneously importing raw materials and high-tech equipment to fuel its industrial expansion. Even smaller economies like Kosovo have used trade to stimulate growth. By opening its markets and increasing exports, especially in sectors like metals, textiles, and services, Kosovo has worked to create more job opportunities and strengthen its economy, even though challenges remain. In short, we see that our countries have successfully used exports and imports to connect with the global economy which contributed to faster GDP growth.</p>
 <p>Speaking on GDP growth, let us look at and compare the nominal GDP growth for each of the countries, and see if there are any meaningful relationships there.</p>
-<p>::: {#cell-fig-GDPPerCapNom(Top5) .cell message=‘false’ execution_count=15}</p>
+<div id="cell-fig-GDPPerCapNomTop5" class="cell" data-fig.cap="This is a line graph showing the Change in GDP nominally for our Top 5 countries" data-message="false" data-execution_count="15">
 <div class="cell-output cell-output-display">
-<p>![](report_files/figure-html/fig-gdppercapnom(top5-output-1.png){#fig-gdppercapnom(top5}</p>
+<div id="fig-gdppercapnomtop5" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-gdppercapnomtop5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="report_files/figure-html/fig-gdppercapnomtop5-output-1.png" id="fig-gdppercapnomtop5" class="img-fluid figure-img">
 </div>
-<p>:::</p>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-gdppercapnomtop5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
 <p>The graph presented examines nominal GDP per capita over time to assess the economic growth trajectories of our top five countries. By focusing on nominal GDP per capita, the graph aims to provide a clearer understanding of each country’s initial economic position and how it evolves over time. Upon review, we observe that there is little correlation between the starting GDP per capita of the countries, as they begin at different levels yet still experience significant economic growth. While the goal was to explore the influence of initial economic conditions on long-term growth patterns, the results do not strongly support this hypothesis. Instead, it becomes apparent that the varying starting points in capital across the countries did not seem to hinder their ability to achieve high rates of growth.</p>
 <p>Let us now go onto to look at the relationship between employment percentages</p>
-<p>::: {#cell-fig-EmployRatio(Top5) .cell message=‘false’ execution_count=16}</p>
+<div id="cell-fig-EmployRatioTop5" class="cell" data-fig.cap="This is a line graph showing the Change in Employment for our Top 5 countries" data-message="false" data-execution_count="16">
 <div class="cell-output cell-output-display">
-<p>![](report_files/figure-html/fig-employratio(top5-output-1.png){#fig-employratio(top5}</p>
+<div id="fig-employratiotop5" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-employratiotop5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="report_files/figure-html/fig-employratiotop5-output-1.png" id="fig-employratiotop5" class="img-fluid figure-img">
 </div>
-<p>:::</p>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-employratiotop5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
 <p>Across China, Vietnam, Myanmar, Kosovo, and Lao PDR, employment ratios show some common patterns alongside important differences. In general, countries that have embraced export-led growth strategies, industrialization, and international trade tend to have higher employment ratios and have created more formal job opportunities. Meanwhile, countries that remain heavily dependent on agriculture or have less diversified economies often experience lower employment ratios, with a larger share of workers engaged in informal or subsistence activities. Focusing specifically on Vietnam and Lao PDR highlights these trends clearly. Vietnam has maintained a high employment ratio, thanks to its rapid industrialization and integration into global markets. Since the 1990s, Vietnam’s shift from a primarily agricultural economy to a manufacturing and services-driven one has created millions of jobs in factories, technology firms, and export-oriented industries. Trade agreements with major partners like the United States, the European Union, and neighboring Asian countries have further boosted employment by attracting foreign investment and expanding Vietnam’s access to global markets. In contrast, Lao PDR has a much lower employment ratio. Although Laos has also experienced economic growth, much of its labor force remains tied to agriculture, often in informal or subsistence roles. Industrial and manufacturing sectors are smaller, and trade is less diversified, limiting the number of formal job opportunities available. While sectors like hydropower and mining have driven some growth, they tend to be capital-intensive rather than labor-intensive, meaning they generate fewer jobs relative to their economic output. Despite these differences, all five countries have maintained relatively high GDP growth rates in recent years. Strong employment growth, especially in Vietnam, has played a key role by boosting domestic demand, increasing household incomes, and enabling broader participation in the economy — all of which help sustain and accelerate economic expansion.</p>
 </section>
 </section>
 <section id="conclusion" class="level2">
 <h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>This analysis of GDP per capita, employment-to-population ratio, and GDP growth across countries and regions offers a comprehensive view of global economic development over the past several decades. Through time series analysis, clustering, and forecasting, we identified distinct growth trajectories among nations like the United States, China, and India, highlighting both persistent inequalities and signs of economic convergence. The employment-to-population ratio further revealed key differences in labor market participation, often shaped by structural factors such as resource dependence and economic diversification. Lastly, our study of GDP growth trends showed a broad decline in growth rates since the 1960s, with higher volatility and vulnerability among lower-income countries, and slower, steadier growth in high-income economies.</p>
+<p>Together, these findings underscore the importance of inclusive, sustainable policies that support long-term development. While some emerging economies are rapidly catching up, global disparities in income, employment, and resilience to economic shocks remain significant. Monitoring these indicators over time provides valuable insight into the evolving challenges and opportunities facing the world economy.</p>
 </section>
 
 </main>

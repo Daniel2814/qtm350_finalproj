@@ -904,7 +904,7 @@ Economists state that a health gdp growth rate is 2% we see that on average, our
 Let us see if we can find any meaningful connections between these coutnries when looking at percent of Export and Imports as a portion of GDP
 
 ```{python}
-#| label: fig-ChangeEXP(Top5)
+#| label: fig-ChangeEXPTop5
 #| echo: false
 #| message: false
 #| warning: false
@@ -948,7 +948,7 @@ In short, we see that our countries have successfully used exports and imports t
 
 Speaking on GDP growth, let us look at and compare the nominal GDP growth for each of the countries, and see if there are any meaningful relationships there.
 ```{python}
-#| label: fig-GDPPerCapNom(Top5)
+#| label: fig-GDPPerCapNomTop5
 #| echo: false
 #| message: false
 #| warning: false
@@ -989,7 +989,7 @@ The graph presented examines nominal GDP per capita over time to assess the econ
 
 Let us now go onto to look at the relationship between employment percentages
 ```{python}
-#| label: fig-EmployRatio(Top5)
+#| label: fig-EmployRatioTop5
 #| echo: false
 #| message: false
 #| warning: false
