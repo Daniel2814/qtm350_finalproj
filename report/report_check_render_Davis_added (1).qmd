@@ -1,0 +1,1013 @@
+---
+title: "Economic Development Analysis"
+subtitle: "QTM350 Final Project"
+author: "Davis Boor (2556176), Emma Jinright (2488724), Daniel Nickas (2549711), and Nick Richards (2495699)"
+date: "2025-04-28"
+format: html
+---
+
+## Introduction
+
+
+
+## Data Description
+
+This data is from the [World Bank's World Development Indicators](https://databank.worldbank.org/source/world-development-indicators). We will be utilizing a variety of economic development indicators to conduct this analysis. Our main indicators are `GDP per capita`, `employment to population ratio`, `GDP growth`, and `Davis's Indicator`:
+
+* **`GDP per capita`** represented by the indicator NY.GDP.PCAP.KD, measures a country's economic output divided by its population, adjusted for inflation using constant 2015 US dollars. It reflects the average income or productivity per person and is commonly used as a proxy for a country’s standard of living and overall economic development. This data was obtained from the World Bank and spans from 1960 to 2023 for most countries. We supplemented the GDP data with country-level metadata including country codes and regions, which allowed for comparative and regional analyses across global economies.
+
+The dataset includes annual GDP per capita values for a wide range of countries, enabling longitudinal comparisons and trend analysis. The use of constant dollars helps control for inflation and facilitates meaningful comparisons over time. We focused on three countries—the United States (USA), China (CHN), and India (IND)—to examine contrasting economic trajectories, and we also included clustering and forecasting techniques to further explore global patterns and project future developments.
+
+* **`employment to population ratio`** is a variable that measures the proportion of a country’s working-age population that is currently employed. It reflects the share of people aged 15 and older who are participating in the labor market by holding a job. A higher employment-to-population ratio indicates that a larger percentage of the population is contributing to economic production, while a lower ratio suggests that many individuals are either unemployed, not actively seeking work, or otherwise outside the labor force. This metric is critical for understanding the relationship between labor markets and economic development. This variable is named `L.EMP.TOTL.SP.ZS.` and can be found [here](https://data.worldbank.org/indicator/SL.EMP.TOTL.SP.ZS.). For analysis, we also utilized country metadata that contained information on `region`.  
+
+In the context of economic development, the employment-to-population ratio serves as an important indicator of how well an economy is utilizing its human resources. A rising ratio typically suggests positive development trends, such as increasing job creation, greater access to employment opportunities, and improved living standards. Economies with consistently high employment-to-population ratios often experience broader economic growth, higher productivity, and reduced poverty rates. Conversely, a low ratio can signal structural problems like weak labor market demand, gender disparities in employment, or a mismatch between skills and job opportunities. Natural resource dependence can also influence this ratio: in countries heavily reliant on oil or mining, wealth may be generated without widespread employment, leading to lower overall participation rates despite high national incomes. Thus, analyzing changes in the employment-to-population ratio over time offers key insights into the inclusiveness and sustainability of economic growth. 
+
+* **`GDP growth`** is a variable that captures the annual percent growth of GDP for countries from 1960 to 2023. More specifically, in the World Development Indicators, this variable is named `NY.GDP.MKTP.KD.ZG.` and can be found [here](https://data.worldbank.org/indicator/NY.GDP.MKTP.KD.ZG). For analysis, we also utilized country metadata that contained information on `region` and `income level`.
+
+## Data Analysis
+
+### GDP per Capita
+
+The time series analysis of GDP per capita reveals significant differences in the economic development trajectories of the USA, China, and India. The USA shows a consistent upward trend over the past six decades, with only minor dips during economic recessions. Its GDP per capita remains among the highest globally, highlighting its established infrastructure, productivity, and high standard of living.
+
+In contrast, China’s GDP per capita remained relatively flat until the 1990s, after which it began to rise exponentially. This reflects the country’s rapid industrialization, export-driven growth, and policy reforms that integrated it into the global economy. India’s growth has also accelerated in recent decades, though at a slower pace than China’s. The data shows a steady increase from the early 2000s onward, indicative of ongoing development, expansion of services, and infrastructure investment.
+
+To explore future trends, we applied a time series forecasting model to project the USA’s GDP per capita for upcoming years. While the model suggests continued growth, this projection is subject to uncertainty due to potential global economic fluctuations.
+
+We also conducted a PCA (Principal Component Analysis) and KMeans clustering on GDP per capita data from 2013 to 2023 to identify global development patterns. This dimensionality reduction technique allowed us to visualize economic similarity between countries, revealing three main clusters: high-income economies, emerging markets, and lower-income nations. The clustering results emphasize persistent global inequality in economic output per person, while also identifying convergence among some developing countries.
+
+Together, these analyses offer a multifaceted view of how economies have evolved, diverged, and converged in terms of per capita income, and provide a framework for understanding global economic dynamics and potential future trends.
+
+### Employment to Population Ratio
+
+The Employment-to-Population Ratio trends from 1990-2024 (Many too many data points were excluded before 1990, so it did not necessarily make sense to show N/A values) show clear differences across global regions, revealing important insights about labor market dynamics and economic structures. North America and East Asia & Pacific consistently maintain the highest employment-to-population ratios, while the Middle East & North Africa region shows persistently lower levels. A sharp global decline around 2020 reflects the impact of the COVID-19 pandemic, after which most regions partially recovered, although some — particularly Latin America and Europe — continued to lag. Notably, Sub-Saharan Africa exhibits a relatively resilient employment pattern despite ongoing global shocks, likely due to its labor-intensive informal economy. Overall, the World Average line demonstrates a slow, steady decline over time, highlighting a global trend toward slightly lower labor market participation.
+
+Natural resources play a critical role in explaining these regional differences. Resource-rich economies, particularly those dependent on oil exports such as those in the Middle East and North Africa, often exhibit lower employment-to-population ratios. This reflects the "resource curse," where resource wealth does not translate into widespread job creation due to capital-intensive industries dominating national output. In contrast, regions like Sub-Saharan Africa, heavily reliant on agriculture and mining, maintain higher employment ratios despite lower GDP per capita, driven by the need for broad participation in informal sectors. The relative resilience of East Asia and North America further suggests that diversified economies with strong service and industrial sectors are better positioned to maintain stable employment levels, even during global disruptions. These findings are consistent with research from the World Bank (2021), the International Labour Organization (2020), and Sachs and Warner (1995), which collectively emphasize the importance of economic diversification in sustaining employment growth.
+
+### GDP Growth
+
+The next indicator that we are interested in analyzing is GDP growth. In order to analyze this variable, we first did data cleaning using SQLite. We removed unneeded variables, cleaned variable names, and joined our GDP growth indicator with the country metadata. Then, we removed entries where there was no region. This is because the `country_name` column also contained regions, income levels, and world averages and to avoid redundancy with our joined data, we removed it. Lastly, we pivotted the table into a long format where instead of each year having it's own column, there is a year column and then a GDP growth column to capture the percentage of GDP growth for every year. After cleaning was completed, some simple descriptive statistics tables were created using SQLite which can be seen below. After that, python was used to create visualizations to support further analysis. The main questions we were trying to answer through the analysis of GDP growth was how GDP growth had changed over time between different regions and income levels compared to the world average. The code used to complete this analysis is located in the scripts file of this gtihub repository [here](https://github.com/Daniel2814/qtm350_finalproj/tree/d5262c78c7946d1de2ea87f036598ffe62cc3b17/scripts).
+
+
+
+### GDP per Capita
+
+
+### Employment to Population Ratio
+
+
+```{python}
+#| label: setup1
+#| include: false
+# Import necessary libraries
+import pandas as pd
+import sqlite3 
+import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('Agg')
+import seaborn as sns
+from matplotlib.ticker import MultipleLocator
+import os
+from IPython.display import Image, display
+
+# Connect to the SQLite database
+
+conn = sqlite3.connect("employment.db")
+cursor = conn.cursor()
+cursor.execute("PRAGMA foreign_keys = ON;")
+print("Database connection established and foreign keys enabled.")
+
+# Load employment data (this was missing earlier!)
+employment = pd.read_csv("../data/API_SL.EMP.TOTL.SP.ZS_DS2_en_csv_v2_23936.csv", skiprows=4)
+employment.to_sql("employment", conn, if_exists="replace", index=False)
+
+# Load countries metadata
+countries = pd.read_csv("../data/Metadata_Country_API_NY.GDP.MKTP.KD.ZG_DS2_en_csv_v2_19358.csv")
+countries.to_sql("countries", conn, if_exists="replace", index=False)
+
+# Clean employment data by joining with country metadata
+years = [str(year) for year in range(1960, 2025)]
+year_columns = ", ".join([f"`{year}`" for year in years])
+
+query1 = f"""
+DROP TABLE IF EXISTS employment_clean;
+CREATE TABLE employment_clean AS
+SELECT 
+    employment.`Country Name` AS country_name,
+    employment.`Country Code` AS country_code,
+    {year_columns},
+    countries.Region AS region,
+    countries.IncomeGroup AS income_group
+FROM employment
+LEFT JOIN countries
+ON employment.`Country Code` = countries.`Country Code`
+WHERE countries.Region IS NOT NULL;
+"""
+conn.executescript(query1)
+conn.commit()
+
+union_queries = []
+
+for year in years:
+    union_queries.append(f"""
+    SELECT 
+        country_name,
+        country_code,
+        region,
+        income_group,
+        '{year}' AS year,
+        `{year}` AS employment_to_pop
+    FROM employment_clean
+    WHERE `{year}` IS NOT NULL
+    """)
+
+query2 = " UNION ALL ".join(union_queries)
+
+
+create_table_query = f"""
+DROP TABLE IF EXISTS employment_long;
+CREATE TABLE employment_long AS
+{query2}
+"""
+conn.executescript(create_table_query)
+conn.commit()
+
+print("Table employment_long created successfully.")
+
+# Calculate World Average Employment-to-Population Ratio
+query3 = '''
+-- Calculate the world average employment ratio for each year
+WITH world_avg AS (
+    SELECT 
+        year,
+        AVG(employment_to_pop) AS world_avg_employment
+    FROM employment_long
+    WHERE region IS NOT NULL
+    GROUP BY year
+)
+-- Insert world average into employment_long
+INSERT INTO employment_long (country_name, country_code, region, income_group, year, employment_to_pop)
+SELECT 
+    'World' AS country_name,
+    NULL AS country_code,
+    'World' AS region,
+    'World' AS income_group,
+    world_avg.year,
+    world_avg.world_avg_employment
+FROM world_avg;
+'''
+conn.executescript(query3)
+conn.commit()
+
+# summary table by decade
+query4 = '''
+SELECT
+    ((CAST(year AS INTEGER) / 10) * 10) || 's' AS decade,
+    COUNT(employment_to_pop) AS count_obs,
+    MIN(employment_to_pop) AS min_ratio,
+    AVG(employment_to_pop) AS avg_ratio_decade,
+    MAX(employment_to_pop) AS max_ratio
+FROM
+    employment_long
+WHERE
+    region != 'World'
+GROUP BY
+    decade
+ORDER BY
+    decade;
+'''
+decade_summary = pd.read_sql_query(query4, conn)
+
+query5 = '''
+SELECT
+    region,
+    COUNT(DISTINCT country_name) AS n_countries,
+    COUNT(employment_to_pop) AS n_obs,
+    AVG(employment_to_pop) AS avg_ratio,
+    MIN(employment_to_pop) AS min_ratio,
+    MAX(employment_to_pop) AS max_ratio
+FROM
+    employment_long
+GROUP BY
+    region
+ORDER BY
+    region;
+'''
+region_summary = pd.read_sql_query(query5, conn)
+
+query6 = '''
+SELECT
+    income_group,
+    COUNT(DISTINCT country_name) AS n_countries,
+    COUNT(employment_to_pop) AS n_obs,
+    MIN(employment_to_pop) AS min_ratio,
+    AVG(employment_to_pop) AS avg_ratio,
+    MAX(employment_to_pop) AS max_ratio
+FROM
+    employment_long
+WHERE
+    income_group IS NOT NULL
+GROUP BY
+    income_group
+ORDER BY
+    avg_ratio DESC;
+'''
+income_summary = pd.read_sql_query(query6, conn)
+
+employment_long = pd.read_sql_query("SELECT * FROM employment_long", conn)
+
+conn.close()
+
+```
+
+```{python}
+#| label: setup2
+#| include: false
+# Import necessary libraries
+#| fig.cap: "This is a line plot showing different employment ratios across different regions"
+import pandas as pd
+import sqlite3 
+import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('Agg')
+import seaborn as sns
+from matplotlib.ticker import MultipleLocator
+import os
+from IPython.display import Image, display
+
+employment_long['year'] = employment_long['year'].astype(int)
+
+# Group regional employment data
+avg_employment_by_region = employment_long.groupby(['year', 'region'])['employment_to_pop'].mean().reset_index()
+
+# Group world average separately
+world_avg_employment = employment_long[employment_long['region'] == 'World'].groupby('year')['employment_to_pop'].mean().reset_index()
+
+# --- Filter: Only years >= 1960 ---
+avg_employment_by_region = avg_employment_by_region[avg_employment_by_region['year'] >= 1960]
+world_avg_employment = world_avg_employment[world_avg_employment['year'] >= 1960]
+
+# --- Plot ---
+plt.figure(figsize=(14, 8))
+
+# Plot regional lines (excluding World)
+sns.lineplot(
+    data=avg_employment_by_region[avg_employment_by_region['region'] != 'World'],
+    x='year',
+    y='employment_to_pop',
+    hue='region'
+)
+
+# Plot World Average manually (black thick line)
+plt.plot(
+    world_avg_employment['year'],
+    world_avg_employment['employment_to_pop'],
+    color='black',
+    linewidth=3,
+    label='World Average'
+)
+
+# Titles, labels, ticks
+plt.title('Employment to Population Ratio Over Time by Region (1960–2024)')
+plt.xlabel('Year')
+plt.ylabel('Employment to Population Ratio (%)')
+plt.gca().xaxis.set_major_locator(MultipleLocator(10))
+plt.grid(True)
+
+# Legend (World included)
+plt.legend(title='Region', bbox_to_anchor=(1.05, 1), loc='upper left')
+
+# Layout and save
+plt.tight_layout()
+plt.savefig("../figures/employment_to_pop_ratio_by_region.png")
+display(Image(filename="../figures/employment_to_pop_ratio_by_region.png"))
+
+```
+
+### GDP Growth
+
+Here are the results from the GDP Growth analysis. 
+
+```{python}
+#| label: setup3
+#| include: false
+# Import necessary libraries
+import pandas as pd
+import sqlite3
+import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('Agg')  # Use a non-interactive backend for matplotlib
+import seaborn as sns
+from matplotlib.ticker import MultipleLocator
+from IPython.display import Image, display
+
+# connection to the SQLite database
+conn = sqlite3.connect("economic_data.db")
+cursor = conn.cursor()
+
+# Enable foreign key support
+cursor.execute("PRAGMA foreign_keys = ON;")
+
+print("Database connection established and foreign keys enabled.")
+
+# Load the CSV file
+gdp_growth = pd.read_csv("../data/API_NY.GDP.MKTP.KD.ZG_DS2_en_csv_v2_19358.csv", skiprows=4)
+gdp_growth
+
+# Select the relevant columns
+columns_to_drop = ['Indicator Name', 'Indicator Code', 'Unnamed: 69']
+gdp_growth = gdp_growth.drop(columns=columns_to_drop)
+
+# Create SQLite table for GDP growth data
+gdp_growth.to_sql("gdp_growth", conn, if_exists="replace", index=False)
+
+# Load the CSV file
+countries = pd.read_csv("../data/Metadata_Country_API_NY.GDP.MKTP.KD.ZG_DS2_en_csv_v2_19358.csv")
+
+# Create SQLite table for countries data
+countries.to_sql("countries", conn, if_exists="replace", index=False)
+
+# List of years as strings
+years = [str(year) for year in range(1960, 2025)]  # 1960–2024
+
+year_columns = ", ".join([f"`{year}`" for year in years])
+
+# Create gdp_growth_clean table with selected columns and join with countries
+query1 = f"""
+DROP TABLE IF EXISTS gdp_growth_clean;
+CREATE TABLE gdp_growth_clean AS
+SELECT 
+    gdp_growth.`Country Name` AS country_name,
+    gdp_growth.`Country Code` AS country_code,
+    {year_columns},
+    countries.Region AS region,
+    countries.IncomeGroup AS income_group
+FROM gdp_growth
+LEFT JOIN countries
+ON gdp_growth.`Country Code` = countries.`Country Code`
+WHERE
+    countries.Region IS NOT NULL;
+"""
+
+conn.executescript(query1)
+conn.commit()
+
+# Create gdp_growth_long table in long format
+
+query2 = "PRAGMA table_info(gdp_growth_clean);"
+columns_info = pd.read_sql_query(query2, conn)
+
+years_in_data = []
+
+for col in columns_info['name']:
+    # Check if the column name is an integer in the range 1960-2024
+    if col.isdigit() and 1960 <= int(col) <= 2024:
+        years_in_data.append(col)
+
+union_queries = []
+
+for year in years_in_data:
+    union_queries.append(f"""
+    SELECT 
+        country_name,
+        country_code,
+        region,
+        income_group,
+        '{year}' AS year,
+        `{year}` AS gdp_growth
+    FROM gdp_growth_clean
+    WHERE `{year}` IS NOT NULL
+    """)
+
+query3 = " UNION ALL ".join(union_queries)
+
+create_table_query = f"""
+DROP TABLE IF EXISTS gdp_growth_long;
+CREATE TABLE gdp_growth_long AS
+{query3}
+"""
+
+conn.executescript(create_table_query)
+conn.commit()
+
+print("Table gdp_growth_long created successfully.")
+
+query4 = '''
+-- Calculate the world average GDP growth for each year
+WITH world_avg AS (
+    SELECT 
+        year, 
+        AVG(gdp_growth) AS world_avg_growth
+    FROM gdp_growth_long
+    WHERE region IS NOT NULL  -- Ensure you're using valid regions (not countries without regions)
+    GROUP BY year
+)
+
+-- Insert the world averages into the table
+INSERT INTO gdp_growth_long (country_name, country_code, region, income_group, year, gdp_growth)
+SELECT 
+    'World' AS country_name, 
+    NULL AS country_code,  -- No country code for the world
+    'World' AS region,     -- Region labeled as 'World'
+    'World' AS income_group,  -- No income group for the world
+    world_avg.year,
+    world_avg.world_avg_growth
+FROM world_avg;
+'''
+conn.executescript(query4)
+conn.commit()
+```
+
+The table below summarizes GDP growth statistics across decades.
+
+```{python}
+#| label: table-decade
+#| echo: false
+#| message: false
+#| warning: false
+# Create a new table for average GDP growth by decade
+query5 = '''
+SELECT
+    ((CAST(year AS INTEGER) / 10) * 10) || 's' AS decade,
+    COUNT(gdp_growth) AS count_growth,
+    MIN(gdp_growth) AS min_growth,
+    AVG(gdp_growth) AS avg_growth_decade,
+    MAX(gdp_growth) AS max_growth
+FROM
+    gdp_growth_long
+WHERE
+    region != 'World'  -- Exclude the world average
+GROUP BY
+    decade
+ORDER BY
+    decade;
+'''
+# Execute the query and fetch the results
+decade_growth = pd.read_sql_query(query5, conn)
+decade_growth
+```
+
+The 1960s exhibited the highest average GDP growth (~5.46%), while 2020 to present had the lowest average (~2.00%) across the world. The 1990s showed notable volatility with the widest range in growth rates (-64% to +150%). This pattern highlights a long-term slowdown of global economic expansion over the past six decades.
+
+The table below summarizes GDP growth by world region.
+
+```{python}
+#| label: table-region
+#| echo: false
+#| message: false
+#| warning: false
+# Create a new table for average GDP growth by region
+query6 = '''
+SELECT
+    region,
+    COUNT(DISTINCT country_name) AS n_countries,
+    COUNT(gdp_growth) AS n_obs,
+    AVG(gdp_growth) AS avg_growth,
+    MIN(gdp_growth) AS min_growth,
+    MAX(gdp_growth) AS max_growth
+FROM
+    gdp_growth_long
+GROUP BY
+    region
+ORDER BY
+    region;
+
+'''
+# Execute the query and fetch the results
+region_avg = pd.read_sql_query(query6, conn)
+region_avg
+```
+
+When broken down by region, the Middle East and North Africa had the highest average GDP growth (~4.93%) compared to other world regions from 1960 to 2023. This is likely due to oil wealth and energy exports in this region. North America had the slowest average growth (~2.82%) during this time period. This is consistent with trends observed in developed economies with mature markets and slower population growth. The variabiltiy seen across regions suggest that resource wealth, political stability, and demographic factors strongly influence long-term GDP trajectories.
+
+The table below summarizes GDP growth by income group. 
+
+```{python}
+#| label: table-income
+#| echo: false
+#| message: false
+#| warning: false
+# Create a new table for average GDP growth by income group
+query7 = '''
+SELECT
+    income_group,
+    COUNT(DISTINCT country_name) AS n_countries,
+    COUNT(gdp_growth) AS n_obs,
+    MIN(gdp_growth) AS min_growth,
+    AVG(gdp_growth) AS avg_growth,
+    MAX(gdp_growth) AS max_growth
+FROM
+    gdp_growth_long
+WHERE
+    income_group IS NOT NULL
+GROUP BY
+    income_group
+ORDER BY
+    avg_growth DESC;
+'''
+# Execute the query and fetch the results
+income_avg = pd.read_sql_query(query7, conn)
+income_avg
+
+```
+
+Among income groups, Upper Middle Income countries experienced the highest average growth (~4.04%) from 1960 to 2023, while High Income countries had lower average growth (~3.26%) during this time period. The Upper Middle Income country growth reflects the rapid industrialization and modernization of economies such as China, Malaysia, and Turkey from 1960 to 2023. The more stable, lower growth experienced by High Income countries reinforces the idea that as economies mature, growth rates naturally slow. This comparison shows the importance of the development stage in driving economic performance across countries.
+
+```{python}
+#| label: SQL-end
+#| include: false
+# Create pandas DataFrame from gdp_growth_long table
+gdp_growth_long = pd.read_sql_query("SELECT * FROM gdp_growth_long", conn)
+
+# Close the database connection
+conn.close()
+print("Database connection closed.")
+```
+
+This first figure displays average GDP growth over time by region.
+
+```{python}
+#| label: fig-region
+#| echo: false
+#| message: false
+#| warning: false
+#| fig.cap: "This is a line plot showing GDP growth over time for different regions of the world"
+# Graph average GDP growth over time by region
+avg_growth_by_year_region = gdp_growth_long.groupby(['year', 'region'])['gdp_growth'].mean().reset_index()
+
+# Plot
+plt.figure(figsize=(14, 8))
+
+
+# Plot the average GDP growth by year and region (excluding World)
+sns.lineplot(
+    data=avg_growth_by_year_region[avg_growth_by_year_region['region'] != 'World'], 
+    x='year', 
+    y='gdp_growth', 
+    hue='region'
+)
+
+# Manually add the world average line
+world_avg_growth = gdp_growth_long[gdp_growth_long['region'] == 'World'].groupby('year')['gdp_growth'].mean().reset_index()
+
+# Plot the world average line
+plt.plot(world_avg_growth['year'], world_avg_growth['gdp_growth'], 
+         color='black', linewidth=3, label='World Average')  # Black, thicker line for world average
+
+# Set titles and labels
+plt.title('Average GDP Growth Over Time by Region')
+plt.xlabel('Year')
+plt.ylabel('Average GDP Growth (%)')
+
+# Adjust the legend to include world average
+plt.legend(title='Region', bbox_to_anchor=(1.05, 1), loc='upper left')
+
+plt.gca().xaxis.set_major_locator(MultipleLocator(10))
+
+plt.grid(True)
+plt.tight_layout()
+plt.savefig("../figures/avg_gdp_growth_by_region.png")
+display(Image(filename="../figures/avg_gdp_growth_by_region.png"))
+```
+
+While short-term fluctuations are common across the globe, a general decline in growth rates is observed post-1970s across most regions. It is clear on the figure that all world regions experienced high short-term volatility, especially Sub-Saharan Africa and South Asia, with many regions experiencing sharp dips around known global recessions (i.e. the early 1980s and late 2000s). The world average (thicker black line) remains relatively stable compared to the volatility shown in other regions, with spikes and dips corresponding to major global events. The world average also demonstrates how the global economy exhibits greater resilience and inertia compared to individual regions. 
+
+The second figure presents a smoothed trend line of GDP growth over time by world region.
+
+```{python}
+#| label: fig-regionsmooth
+#| echo: false
+#| message: false
+#| warning: false
+#| fig.cap: "This is a line plot showing smoothed GDP growth over time for different regions of the world"
+# Graph average GDP growth over time by region with smoothed lines
+
+# Make sure year is numeric
+gdp_growth_long['year'] = gdp_growth_long['year'].astype(int)
+
+# Create the plot
+plt.figure(figsize=(14, 8))
+
+# Plot with trend lines for regions (smoothing), excluding world data
+sns.lmplot(
+    data=gdp_growth_long[gdp_growth_long['region'].notnull() & (gdp_growth_long['region'] != 'World')],
+    x='year',
+    y='gdp_growth',
+    hue='region',
+    height=8,
+    aspect=1.5,
+    scatter=False,  # Don't plot individual points, just the smoothed line
+    lowess=True,    # Smooth the lines
+    legend=False     # Keep the legend with all regions
+)
+
+# Manually add the world average line (smoothed)
+world_data = gdp_growth_long[gdp_growth_long['region'] == 'World']
+
+# Plot the world average line, smoothed with lowess
+sns.regplot(
+    data=world_data,
+    x='year',
+    y='gdp_growth',
+    scatter=False,  # No scatter points
+    lowess=True,    # Smooth the world average line using lowess
+    line_kws={'color': 'black', 'linewidth': 3}  # Black, thicker line for the world average
+)
+
+# Set titles and labels
+plt.title('Smoothed GDP Growth Over Time by Region')
+plt.xlabel('Year')
+plt.ylabel('Average GDP Growth (%)')
+
+# Adjust legend to include world average line
+handles, labels = plt.gca().get_legend_handles_labels()
+
+# Manually add the world average to the legend (only once)
+handles.append(plt.Line2D([0], [0], color='black', linewidth=3))  # Add world average line handle
+labels.append('World Average')  # Add world average label
+
+# Display the legend and finalize the plot
+plt.legend(handles=handles, labels=labels, title='Region', bbox_to_anchor=(1.05, 1), loc='upper left')
+
+plt.grid(True)
+plt.tight_layout()
+
+plt.savefig("../figures/gdp_growth_by_region_trend.png")
+display(Image(filename="../figures/gdp_growth_by_region_trend.png"))
+```
+
+This reveals a clearer long-term downward trend of GDP growth across all regions in the world. Notably, Sub-Saharan Africa, the Middle East and North Africa, and South Asia initially experienced relatively high growth, but later their growth rates converged downward with other regions. North America and Europe and Central Asia have shown the lowest growth decline trajectory so far. This is likely explained by structural factors, such as aging populations, slower technological diffusion, and diminishing returns to capital.
+
+The below figure displays the average GDP growth over time by country income level.
+
+```{python}
+#| label: fig-income
+#| echo: false
+#| message: false
+#| warning: false
+#| fig.cap: "This is a line plot showing GDP growth over time for countries of different income levels"
+# Graph average GDP growth over time by income group
+
+# Group by both year and income group, calculate the mean
+avg_growth_by_year_income = gdp_growth_long.groupby(['year', 'income_group'])['gdp_growth'].mean().reset_index()
+
+# Plot the average GDP growth by year and income group (excluding World)
+plt.figure(figsize=(14, 8))
+sns.lineplot(
+    data=avg_growth_by_year_income[avg_growth_by_year_income['income_group'] != 'World'], 
+    x='year', 
+    y='gdp_growth', 
+    hue='income_group'
+)
+
+# Manually add the world average line
+world_avg_growth_income = gdp_growth_long[gdp_growth_long['income_group'] == 'World'].groupby('year')['gdp_growth'].mean().reset_index()
+
+# Plot the world average line
+plt.plot(world_avg_growth_income['year'], world_avg_growth_income['gdp_growth'], 
+         color='black', linewidth=3, label='World Average')  # Black, thicker line for world average
+
+# Set titles and labels
+plt.title('Average GDP Growth Over Time by Income Group')
+plt.xlabel('Year')
+plt.ylabel('Average GDP Growth (%)')
+
+# Get the current legend handles and labels
+handles, labels = plt.gca().get_legend_handles_labels()
+
+# Define the desired order for the legend
+legend_order = ['World', 'Low income', 'Lower middle income', 'Upper middle income', 'High income']
+
+# Reorder the handles and labels based on the desired order
+ordered_handles = []
+ordered_labels = []
+
+# Add world first
+ordered_handles.append(plt.Line2D([0], [0], color='black', linewidth=3, label='World Average'))
+ordered_labels.append('World Average')
+
+# Add other regions in the desired order
+for label in legend_order[1:]:
+    if label in labels:
+        idx = labels.index(label)
+        ordered_handles.append(handles[idx])
+        ordered_labels.append(labels[idx])
+
+# Add the reordered legend to the plot
+plt.legend(handles=ordered_handles, labels=ordered_labels, title='Income Group', bbox_to_anchor=(1.05, 1), loc='upper left')
+
+plt.grid(True)
+plt.tight_layout()
+
+plt.savefig("../figures/avg_gdp_growth_by_income.png")
+display(Image(filename="../figures/avg_gdp_growth_by_income.png"))
+```
+
+This income group graphs show that GDP growth trends differ substantially across income levels. High-income countries experienced relatively stable and moderate growth throughout the observed period, with smaller fluctuations even during major global events such as the 2008 financial crisis and the 2020 pandemic. In contrast, lower-middle-income and low-income countries exhibited much greater volatility, with sharp downturns during periods of global recession. Upper-middle-income countries generally achieved higher average growth rates, particularly during the 1990s and early 2000s, but their growth also became less consistent after 2008. These patterns suggest that lower-income countries are more vulnerable to external shocks, while high-income countries are more insulated due to stronger economic institutions and diversification.
+
+This last figure presents a smoothed trend line of GDP growth over time by country income level.
+
+```{python}
+#| label: fig-incomesmooth
+#| echo: false
+#| message: false
+#| warning: false
+#| fig.cap: "This is a line plot showing smoothed GDP growth over time for countries of different income levels"
+# Graph average GDP growth over time by income group with smoothed lines
+
+# Group by year and income group, calculate the mean
+avg_growth_by_year_income = gdp_growth_long.groupby(['year', 'income_group'])['gdp_growth'].mean().reset_index()
+
+# Plot with smoothing for income groups
+plt.figure(figsize=(14, 8))
+sns.lmplot(
+    data=gdp_growth_long[gdp_growth_long['income_group'].notnull() & (gdp_growth_long['region'] != 'World')],
+    x='year',
+    y='gdp_growth',
+    hue='income_group',
+    height=8,
+    aspect=1.5,
+    scatter=False,  # Don't plot individual points, just the smoothed line
+    lowess=True,    # Smooth the lines
+    legend=False     # Turn off the legend to customize it later
+)
+
+# Manually add the world average line (smoothed)
+world_data = gdp_growth_long[gdp_growth_long['income_group'] == 'World']
+
+# Plot the world average line, smoothed with lowess
+sns.regplot(
+    data=world_data,
+    x='year',
+    y='gdp_growth',
+    scatter=False,  # No scatter points
+    lowess=True,    # Smooth the world average line using lowess
+    line_kws={'color': 'black', 'linewidth': 3}  # Black, thicker line for the world average
+)
+
+# Set titles and labels
+plt.title('Smoothed Average GDP Growth Over Time by Income Group')
+plt.xlabel('Year')
+plt.ylabel('Average GDP Growth (%)')
+
+# Get the current legend handles and labels
+handles, labels = plt.gca().get_legend_handles_labels()
+
+# Define the desired order for the legend
+legend_order = ['World', 'Low income', 'Lower middle income', 'Upper middle income', 'High income']
+
+# Reorder the handles and labels based on the desired order
+ordered_handles = []
+ordered_labels = []
+
+# Add world first
+ordered_handles.append(plt.Line2D([0], [0], color='black', linewidth=3, label='World Average'))
+ordered_labels.append('World Average')
+
+# Add other regions in the desired order
+for label in legend_order[1:]:
+    if label in labels:
+        idx = labels.index(label)
+        ordered_handles.append(handles[idx])
+        ordered_labels.append(labels[idx])
+
+# Add the reordered legend to the plot
+plt.legend(handles=ordered_handles, labels=ordered_labels, title='Income Group', bbox_to_anchor=(1.05, 1), loc='upper left')
+
+plt.grid(True)
+plt.tight_layout()
+plt.savefig("../figures/avg_gdp_growth_by_income_trend.png")
+display(Image(filename="../figures/avg_gdp_growth_by_income_trend.png"))
+```
+
+The smoothed income group trends highlight longer-term structural shifts in global GDP growth patterns. Across all income groups, there is a visible gradual decline in average growth rates from the 1960s to the 2020s. Although upper-middle-income countries reached a peak of growth around the early 2000s, this momentum slowed considerably in the following decades. Low-income countries experienced the steepest long-term decline, pointing to persistent challenges such as political instability, lack of infrastructure, and dependency on a narrow range of industries. High-income countries maintained steadier growth but at increasingly lower rates over time, suggesting that mature economies are facing limits to expansion. Together, these smoothed trends imply that broader global factors, such as technological stagnation, demographic shifts, and environmental pressures, are influencing growth trajectories across all income levels, albeit unevenly.
+
+### Finding what makes the best economies work? Do any of our variables help estimate this
+In addition to these variables, we aim to identify factors that contribute to sustained economic growth. We will measure economic growth by examining the percentage increase in GDP over time and focus our analysis on the top five countries with the highest growth rates.
+
+```{python}
+#| echo: false
+#| message: false
+#| warning: false
+import pandas as pd
+
+# Read data for exports, GDP, and employment
+data_EXP = pd.read_csv(
+    "../data/API_NE.EXP.GNFS.ZS_DS2_en_csv_v2_19646/API_NE.EXP.GNFS.ZS_DS2_en_csv_v2_19646.csv"
+)
+data_GDP = pd.read_csv(
+    "../data/API_NY.GDP.PCAP.KD_DS2_en_csv_v2_19405.csv", 
+    skiprows=4
+)
+data_GDP_per_Cap = pd.read_csv(
+    "../data/API_NY.GDP.PCAP.KD_DS2_en_csv_v2_19405.csv", 
+    skiprows=4
+)
+data_Employment = pd.read_csv(
+    "../data/API_SL.EMP.TOTL.SP.ZS_DS2_en_csv_v2_23936.csv", 
+    skiprows=4
+)
+# List of year columns
+year_cols = [str(year) for year in range(1990, 2025)]
+
+# Calculate year-to-year percentage change
+df_pct_change = data_GDP.copy()
+df_pct_change[year_cols] = data_GDP[year_cols].pct_change(axis=1) * 100  # multiply by 100 to get percent
+
+# Create new ranked columns
+ranked_cols = [f"{col}_rank" for col in year_cols]  # new names like '1960_rank', '1961_rank', etc.
+
+# Make a copy and rank each year column
+df_ranked = df_pct_change.copy()
+for original, new in zip(year_cols, ranked_cols):
+    df_ranked[new] = df_ranked[original].rank(ascending=False, method='min')  # highest value gets rank 1
+
+# Now sum all the ranking columns into a new column
+df_ranked['Total_Rank'] = df_ranked[ranked_cols].sum(axis=1)
+
+# Exclude countries with "Asia" in the name or starting with "Late"
+df_ranked = df_ranked[~df_ranked['Country Name'].str.contains('Asia', case=False, na=False)]
+df_ranked = df_ranked[~df_ranked['Country Name'].str.lower().str.startswith('late', na=False)]
+df_ranked = df_ranked[~df_ranked['Country Name'].str.lower().str.startswith('upper', na=False)]
+# Calculate the average rank for each row (ignoring NaNs)
+df_ranked['Average_Rank'] = df_ranked[ranked_cols].mean(axis=1, skipna=True)
+
+# View the top 5 rows with the lowest Average_Rank
+top5_avg = df_ranked.nsmallest(5, 'Average_Rank')
+
+print(top5_avg[['Country Name', 'Indicator Name', 'Average_Rank']])
+
+```
+These 5 highest countries are China, Viet Nam, Myanmar, Kosovo and Lao PDR. Let us put htem up on a graph to show their relationship over time
+
+```{python}
+#| label: Change in GDP
+#| echo: false
+#| message: false
+#| warning: false
+import matplotlib.pyplot as plt
+
+# Assume top5_avg is already created
+year_cols = [str(year) for year in range(1990, 2025)]
+
+# Set up the plot
+plt.figure(figsize=(12, 8))
+
+# Plot each row in top5_avg
+for idx, row in top5_avg.iterrows():
+    plt.plot(
+        year_cols,
+        row[year_cols].values,
+        label=row['Country Name']
+    )
+
+# Add horizontal line at 2% GDP growth
+plt.axhline(y=2, color='red', linestyle='--', linewidth=2, label='Healthy GDP growth rate')
+
+# Customize the plot
+plt.title('Change in GDP per capita Year by Year (Top 5)', fontsize=16)
+plt.xlabel('Year', fontsize=14)
+plt.ylabel('% Change in GDP', fontsize=14)
+
+# Set x-ticks to every 5 years
+xticks = [str(year) for year in range(1990, 2025, 5)]
+plt.xticks(ticks=xticks, rotation=45)
+
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+
+# Show the plot
+plt.savefig('ChangeGDPTop5.png')
+display(Image(filename="../figures/ChangeGDPTop5.png"))
+```
+
+Economists state that a health gdp growth rate is 2% we see that on average, our top 5 countries are always above the average, excluding the huge drop during COVID.
+
+Let us see if we can find any meaningful connections between these coutnries when looking at percent of Export and Imports as a portion of GDP
+
+```{python}
+#| label: Change in Exports and Imports
+#| echo: false
+#| message: false
+#| warning: false
+import matplotlib.pyplot as plt
+merged_data = pd.merge(top5_avg, data_EXP, on="Country Name", how='inner')
+
+# Example: Assuming `merged_data` contains your data
+year_cols = [f'{year}_y' for year in range(1990, 2025)]  # Columns like '1960_y', '1961_y', etc.
+
+# Set up the plot
+plt.figure(figsize=(12, 8))
+
+# Plot each country's data over time (one line per country)
+for idx, row in merged_data.iterrows():
+    plt.plot(year_cols, row[year_cols].values, label=row['Country Name'], marker='o')
+
+# Customize the plot
+plt.title('Exports of goods and services Over Time for Top 5', fontsize=16)
+plt.xlabel('Year', fontsize=14)
+plt.ylabel('(% of GDP)', fontsize=14)
+
+# Set x-ticks to every 5 years
+xticks = [f'{year}_y' for year in range(1990, 2025, 5)]
+plt.xticks(ticks=xticks, labels=[str(year) for year in range(1990, 2025, 5)], rotation=45)
+
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+
+# Show the plot
+plt.savefig('ChangeEXP(Top5).png')
+
+display(Image(filename="../figures/ChangeEXP(Top5).png"))
+```
+
+When looking at the percentage of GDP made up by exports and imports, we see a clear difference between China, Vietnam, Myanmar, Kosovo, and Lao PDR. This variation highlights how trade can be a powerful tool for economic growth. By expanding exports, countries can generate more income, create jobs, and bring in foreign currency, which can be reinvested into infrastructure, education, and technology. Similarly, imports allow countries to access goods, services, and technology that they do not produce themselves, helping to improve productivity and competitiveness.
+For example, Vietnam has aggressively expanded its export sector over the past three decades by integrating into global supply chains, especially in electronics, textiles, and manufacturing. This strategy has helped Vietnam achieve rapid economic growth, reduce poverty, and transition from a primarily agricultural economy to one focused on industry and services. In contrast, China used trade as a major driver of its economic rise by becoming the "world’s factory," exporting a vast range of manufactured goods while simultaneously importing raw materials and high-tech equipment to fuel its industrial expansion.
+Even smaller economies like Kosovo have used trade to stimulate growth. By opening its markets and increasing exports, especially in sectors like metals, textiles, and services, Kosovo has worked to create more job opportunities and strengthen its economy, even though challenges remain.
+In short, we see that our countries have successfully used exports and imports to connect with the global economy which contributed to faster GDP growth.
+
+Speaking on GDP growth, let us look at and compare the nominal GDP growth for each of the countries, and see if there are any meaningful relationships there.
+```{python}
+#| label: Change in GDP nominally
+#| echo: false
+#| message: false
+#| warning: false
+import pandas as pd
+merged_data2 = pd.merge(top5_avg, data_GDP_per_cap, on="Country Name", how='inner')
+
+# Example: Assuming `merged_data` contains your data
+year_cols = [f'{year}_y' for year in range(1990, 2025)]  # Columns like '1960_y', '1961_y', etc.
+
+# Set up the plot
+plt.figure(figsize=(12, 8))
+
+# Plot each country's data over time (one line per country)
+for idx, row in merged_data2.iterrows():
+    plt.plot(year_cols, row[year_cols].values, label=row['Country Name'], marker='o')
+
+# Customize the plot
+plt.title('GDP Per Capita Over Time (Top5)', fontsize=16)
+plt.xlabel('Year', fontsize=14)
+plt.ylabel('(GDP Per Capita)', fontsize=14)
+
+# Set x-ticks to every 5 years
+xticks = [f'{year}_y' for year in range(1990, 2025, 5)]
+plt.xticks(ticks=xticks, labels=[str(year) for year in range(1990, 2025, 5)], rotation=45)
+
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+
+# Show the plot
+plt.savefig('GDPPerCapNom(Top5).png')
+display(Image(filename="../figures/GDPPerCapNom(Top5).png"))
+```
+
+The graph presented examines nominal GDP per capita over time to assess the economic growth trajectories of our top five countries. By focusing on nominal GDP per capita, the graph aims to provide a clearer understanding of each country’s initial economic position and how it evolves over time. Upon review, we observe that there is little correlation between the starting GDP per capita of the countries, as they begin at different levels yet still experience significant economic growth. While the goal was to explore the influence of initial economic conditions on long-term growth patterns, the results do not strongly support this hypothesis. Instead, it becomes apparent that the varying starting points in capital across the countries did not seem to hinder their ability to achieve high rates of growth.
+
+
+Let us now go onto to look at the relationship between employment percentages
+```{python}
+#| label: Change in GDP
+#| echo: false
+#| message: false
+#| warning: false
+merged_data3 = pd.merge(top5_avg, data_Employment, on="Country Name", how='inner')
+
+# Example: Assuming `merged_data` contains your data
+year_cols = [f'{year}_y' for year in range(1990, 2025)]  # Columns like '1960_y', '1961_y', etc.
+
+# Set up the plot
+plt.figure(figsize=(12, 8))
+
+# Plot each country's data over time (one line per country)
+for idx, row in merged_data3.iterrows():
+    plt.plot(year_cols, row[year_cols].values, label=row['Country Name'], marker='o')
+
+# Customize the plot
+plt.title('Employment Ratio (Top5)', fontsize=16)
+plt.xlabel('Year', fontsize=14)
+plt.ylabel('(Percent Workforce Employed)', fontsize=14)
+
+# Set x-ticks to every 5 years
+xticks = [f'{year}_y' for year in range(1990, 2025, 5)]
+plt.xticks(ticks=xticks, labels=[str(year) for year in range(1990, 2025, 5)], rotation=45)
+
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+
+# Show the plot
+plt.savefig('EmployRatio(Top5).png')
+display(Image(filename="../figures/EmployRatio(Top5).png"))
+```
+
+Across China, Vietnam, Myanmar, Kosovo, and Lao PDR, employment ratios show some common patterns alongside important differences. In general, countries that have embraced export-led growth strategies, industrialization, and international trade tend to have higher employment ratios and have created more formal job opportunities. Meanwhile, countries that remain heavily dependent on agriculture or have less diversified economies often experience lower employment ratios, with a larger share of workers engaged in informal or subsistence activities.
+Focusing specifically on Vietnam and Lao PDR highlights these trends clearly. Vietnam has maintained a high employment ratio, thanks to its rapid industrialization and integration into global markets. Since the 1990s, Vietnam’s shift from a primarily agricultural economy to a manufacturing and services-driven one has created millions of jobs in factories, technology firms, and export-oriented industries. Trade agreements with major partners like the United States, the European Union, and neighboring Asian countries have further boosted employment by attracting foreign investment and expanding Vietnam’s access to global markets.
+In contrast, Lao PDR has a much lower employment ratio. Although Laos has also experienced economic growth, much of its labor force remains tied to agriculture, often in informal or subsistence roles. Industrial and manufacturing sectors are smaller, and trade is less diversified, limiting the number of formal job opportunities available. While sectors like hydropower and mining have driven some growth, they tend to be capital-intensive rather than labor-intensive, meaning they generate fewer jobs relative to their economic output.
+Despite these differences, all five countries have maintained relatively high GDP growth rates in recent years. Strong employment growth, especially in Vietnam, has played a key role by boosting domestic demand, increasing household incomes, and enabling broader participation in the economy — all of which help sustain and accelerate economic expansion.
+
+## Conclusion
+
